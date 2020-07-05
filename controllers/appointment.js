@@ -26,7 +26,7 @@ module.exports = {
         }else {
             return res.status(400).json({
                 status: 400,
-                message: "Veterinary not available"
+                message: "Veterinary not available "
             });
         }
     },
