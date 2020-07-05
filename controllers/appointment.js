@@ -1,5 +1,4 @@
 var AppointmentService = require('../services/appointment')
-var VeterinaryService = require('../services/veterinary')
 module.exports = {
     /* getAppointments: async function (req, res, next) {
         // Validate request parameters, queries using express-validator
@@ -31,3 +30,4 @@ module.exports = {
         }
     },
 }
+// test git commit
