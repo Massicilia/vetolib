@@ -60,6 +60,8 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
+    timestamps: false
+  }, {
     tableName: 'pet'
   });
 };

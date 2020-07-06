@@ -1,4 +1,5 @@
 {
+  "rootAPI": "/api/v1",
   "development": {
     "username": "vetolibdev",
     "password": "HMSDVBIO",

@@ -16,18 +16,7 @@ module.exports = {
     }, **/
 
     create: (req, res, next) => {
-        const appoint = AppointmentService.postAppointment(req, res);
-        if(appoint){
-            return res.status(200).json({
-                status: 200,
-                message: "Succesfully Appointment Created"
-            });
-        }else {
-            return res.status(400).json({
-                status: 400,
-                message: "Veterinary not available"
-            });
-        }
+        AppointmentService.postAppointment(req, res);
     },
 }
 // test git commit

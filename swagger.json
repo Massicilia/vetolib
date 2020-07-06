@@ -1,0 +1,26 @@
+{
+  "info": {
+    "title": "REST API documentation",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "REST API VETOLIB"
+  },
+  "basePath": "/api/v1",
+  "host": "localhost:8080",
+  "tags": [
+    {
+      "name": "Planning",
+      "description": "Méthodes gérant le planning"
+    },
+    {
+      "name": "Veterinaire",
+      "description": "Méthodes gérant les vétérinaires"
+    }
+  ],
+  "paths": {
+
+  },
+  "swagger": "2.0"
+}

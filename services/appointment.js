@@ -50,7 +50,7 @@ module.exports = {
     postAppointment: (req,res) =>
     {
         return new Promise((next) => {
-            const [appointment, created] = db.appointment.findOrCreate({
+            db.appointment.findOrCreate({
                 where: {
                     reason: req.body.reason,
                     date: req.body.date,
@@ -60,17 +60,24 @@ module.exports = {
                 }
 
             })
-        .then((result) => {
-            console.log(result)
-            if (created) {
-                return false
-            }else {
-                return true
-            }
-        })
-        .catch((err) => next(err))
-        })
-        //NOTIFICATIONS A ENVOYER
+            .then(([newResult, created]) => {
+                console.log('IsNewRecord: ' + newResult.isNewRecord);
+                console.log('created: ' + created);
+                if (created) {
+                    return res.status(200).json({
+                        status: 200,
+                        message: "Succesfully Appointment Created"
+                    });
+                }else {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Veterinary not available"
+                    });
+                }
+            })
+            .catch((err) => next(err))
+            })
+            //NOTIFICATIONS A ENVOYER
     }
 }
 

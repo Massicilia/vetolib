@@ -4,15 +4,20 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var config = require('./config/config.json');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
-var indexRouter = require('./routes/index');
-var veterinaryRouter = require('./routes/veterinary');
-var appointmentRouter = require('./routes/appointment');
-
+var RouterIndex = require('./routes/index');
+var RouterAppointment = require('./routes/appointment');
+var RouterVeterinary = require('./routes/veterinary');
+var RouterPet = require('./routes/pet');
 var app = express();
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(config.rootAPI + '/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,9 +29,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/veterinary', veterinaryRouter);
-app.use('/appointment', appointmentRouter);
+app.use(config.rootAPI, RouterIndex);
+app.use(config.rootAPI + '/veterinary', RouterVeterinary);
+app.use(config.rootAPI + '/appointment', RouterAppointment);
+app.use(config.rootAPI + '/pet', RouterPet);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
