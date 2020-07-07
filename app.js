@@ -12,6 +12,7 @@ var RouterIndex = require('./routes/index');
 var RouterAppointment = require('./routes/appointment');
 var RouterVeterinary = require('./routes/veterinary');
 var RouterPet = require('./routes/pet');
+var RouterPetowner = require('./routes/petowner').router;
 var app = express();
 
 
@@ -33,6 +34,7 @@ app.use(config.rootAPI, RouterIndex);
 app.use(config.rootAPI + '/veterinary', RouterVeterinary);
 app.use(config.rootAPI + '/appointment', RouterAppointment);
 app.use(config.rootAPI + '/pet', RouterPet);
+app.use(config.rootAPI + '/petowner', RouterPetowner);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

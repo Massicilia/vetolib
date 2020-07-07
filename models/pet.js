@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     idpet: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     name: {

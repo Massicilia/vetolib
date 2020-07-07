@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     idpetowner: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     name: {
@@ -36,6 +37,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
+    timestamps: false
+  }, {
     tableName: 'petowner'
   });
 };
+/* jshint indent: 2 */

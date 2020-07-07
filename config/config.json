@@ -1,11 +1,13 @@
 {
   "rootAPI": "/api/v1",
+  "logging": false,
   "development": {
     "username": "vetolibdev",
     "password": "HMSDVBIO",
     "database": "vetolib_dev",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "test": {
     "username": "root",
