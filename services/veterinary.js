@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 const db = require('../models');
 
+module.exports = {
+
+}
+
 /**exports.getAppointments = async function (query) {
     try {
         var appointments = await db.appointment.findAll(query)
