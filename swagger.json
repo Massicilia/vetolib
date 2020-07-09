@@ -17,10 +17,151 @@
     {
       "name": "Veterinaire",
       "description": "Méthodes gérant les vétérinaires"
+    },
+    {
+      "name": "Petowner",
+      "description": "Méthodes gérant les petowners"
+    },
+    {
+      "name": "Pet",
+      "description": "Méthodes gérant les animaux"
     }
   ],
   "paths": {
-
+    "/veterinary": {
+      "get": {
+        "tags": ["Veterinaire"],
+        "summary": "veterinary",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/appointment": {
+      "post": {
+        "tags": ["Planning"],
+        "summary": "appointment",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "reason",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "date",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "veterinary_nordinal",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "petowner_idpetownerappoint",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "pet_idpetappoint",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/pet/{idpetowner}": {
+      "get": {
+        "tags": ["Pet"],
+        "summary": "pet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "petowner_idpetowner",
+            "path": "params",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/petowner/register": {
+      "post": {
+        "tags": ["Petowner"],
+        "summary": "petowner",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "surname",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "adress",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "email",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "phonenum",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "username",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "password",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/petowner/login": {
+      "post": {
+        "tags": ["Petowner"],
+        "summary": "petowner",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "password",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    }
   },
   "swagger": "2.0"
 }
