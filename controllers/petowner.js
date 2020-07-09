@@ -102,19 +102,5 @@ module.exports = {
     },
     login: function(req,res){
 
-    }const getUserByUsername = username => {
-        return Viewer.findOne({
-            where: {username}
-        }).then(response => {
-            console.log(response.dataValues);//the object with the data I need
-            return response.dataValues;
-        });
-    };
-    and in the route:
-
-        app.get('/api/users/:username', (req, res) => {
-            getUserByUsername(req.params.username).then(foundUser => {
-                res.send(foundUser);
-            });
-        });
+    }
 }
