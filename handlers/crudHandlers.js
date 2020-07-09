@@ -35,7 +35,6 @@ module.exports = {
                 .catch((err) => next(err))
     },
 
-
     create : (options,model) => {
         return model.create(options)
             .then(([newResult, created]) => {
