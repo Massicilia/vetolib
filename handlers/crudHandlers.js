@@ -3,6 +3,14 @@ var router = express.Router();
 const db = require('../models');
 
 module.exports = {
+    getByPk: (option, model) => {
+        return model.findByPk(option)
+                .then(function(data) {
+                    return data;
+                })
+                .catch((err) => console.log(err));
+    },
+
     getAll: (req, res, next, model) => {
         return new Promise((next) => {
             model.findAll()
@@ -15,6 +23,11 @@ module.exports = {
 
     getOne: (options,model) => {
         return model.findOne(options)
+            .then(function(data) {
+                console.log("inside then function"+data);
+                return data;
+            })
+            .catch((err) => console.log(err));
     },
 
     findOrCreate : (options,model) => {
