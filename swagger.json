@@ -76,23 +76,6 @@
         "responses": {}
       }
     },
-    "/pet/{idpetowner}": {
-      "get": {
-        "tags": ["Pet"],
-        "summary": "pet",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "petowner_idpetowner",
-            "path": "params",
-            "required": true
-          }
-        ],
-        "responses": {}
-      }
-    },
     "/petowner/register": {
       "post": {
         "tags": ["Petowner"],
@@ -162,7 +145,7 @@
         "responses": {}
       }
     },
-    "/pet/bypetowner": {
+    "/pet/bypetowner/{idpetowner}": {
       "get": {
         "tags": ["Pet"],
         "summary": "pet",
@@ -172,7 +155,7 @@
         "parameters": [
           {
             "name": "idpetowner",
-            "path": "body",
+            "path": "params",
             "required": true
           }
         ],
