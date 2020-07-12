@@ -18,10 +18,11 @@
     "logging": false
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "vetolibuser",
+    "password": "vetolibuser",
+    "database": "vetolib",
+    "host": "vetolib.cu90hpusacqf.eu-west-3.rds.amazonaws.com",
+    "dialect": "mysql",
+    "logging": false
   }
 }
