@@ -161,6 +161,40 @@
         ],
         "responses": {}
       }
+    },
+    "/pet/bypetowner": {
+      "get": {
+        "tags": ["Pet"],
+        "summary": "pet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "idpetowner",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/pet/details": {
+      "get": {
+        "tags": ["Pet"],
+        "summary": "pet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "idpet",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
     }
   },
   "swagger": "2.0"

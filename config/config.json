@@ -2,19 +2,20 @@
   "rootAPI": "/api/v1",
   "logging": false,
   "development": {
+    "username": "vetolibuser",
+    "password": "vetolibuser",
+    "database": "vetolib",
+    "host": "vetolib.cu90hpusacqf.eu-west-3.rds.amazonaws.com",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "test": {
     "username": "vetolibdev",
     "password": "HMSDVBIO",
     "database": "vetolib_dev",
     "host": "localhost",
     "dialect": "mysql",
     "logging": false
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
   },
   "production": {
     "username": "root",

@@ -6,6 +6,9 @@
     "start": "node ./bin/www",
     "startd": "nodemon ./bin/www"
   },
+  "engines": {
+    "node": "12.16.3"
+  },
   "dependencies": {
     "-": "0.0.1",
     "bcrypt": "^5.0.0",
