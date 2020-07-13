@@ -15,29 +15,32 @@ module.exports = {
         if (reason == null || date == null || veterinary_nordinal == null || petowner_idpetownerappoint == null || pet_idpetappoint == null) {
             return res.status(400).json({'error': 'missing parameters'});
         }
-
-        //TO DO VERIFIER MAIL REGEX
-        handler.getOne({
-            where: {
-                date: date,
-                veterinary_nordinal: veterinary_nordinal
-            }
-        }, appointmentmodel)
-            .then(function (appointmentFound) {
-                console.log('appointmentFound : ' + appointmentFound);
-                if (appointmentFound == null) {
-                    console.log('appointmentFound if : ' + appointmentFound);
-                    AppointmentService.create(req,res)
-                } else {
-                    console.log('appointmentFound else : ' + appointmentFound);
-                    return res.status(400).json({
-                        status: 400,
-                        message: "Veterinary not available"
-                    });
+        if(Number.isInteger(veterinary_nordinal) && Number.isInteger(petowner_idpetownerappoint) && Number.isInteger(pet_idpetappoint)){
+            handler.getOne({
+                where: {
+                    date: date,
+                    veterinary_nordinal: veterinary_nordinal
                 }
-            })
-            .catch(function (err) {
-                return res.status(500).json({'error': 'Unable to add an appointment'})
-            })
+            }, appointmentmodel)
+                .then(function (appointmentFound) {
+                    console.log('appointmentFound : ' + appointmentFound);
+                    if (appointmentFound == null) {
+                        console.log('appointmentFound if : ' + appointmentFound);
+                        AppointmentService.create(req,res)
+                    } else {
+                        console.log('appointmentFound else : ' + appointmentFound);
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Veterinary not available"
+                        });
+                    }
+                })
+                .catch(function (err) {
+                    return res.status(500).json({'error': 'Unable to add an appointment'})
+                })
+        }else{
+            res.status(504).json({'error': 'not valide parameters'});
+        }
+
     },
 }

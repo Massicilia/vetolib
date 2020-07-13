@@ -1,5 +1,6 @@
 var bcrypt = require('bcrypt');
 var jwtUtils = require('../utils/jwt.utils');
+var utils = require('../utils/functions');
 var handler = require('../handlers/crudHandlers');
 var petownerService = require('../services/petowner');
 var model = require('../models')
@@ -20,27 +21,30 @@ module.exports = {
             return res.status(400).json({'error': 'missing parameters'});
         }
 
-        //TO DO VERIFIER MAIL REGEX
-        handler.getOne({
-            where: {
-                email: email
-            }
-        }, petownermodel)
-            .then(function (petownerFound) {
-                if (petownerFound == null) {
-                    bcrypt.hash(password, 5, function (err, bcryptedPassword) {
-                        petownerService.create(req, res, bcryptedPassword)
-                    })
-                } else {
-                    return res.status(400).json({
-                        status: 400,
-                        message: "Petowner already exists"
-                    });
+        if(utils.validateEmail(email)){
+            handler.getOne({
+                where: {
+                    email: email
                 }
-            })
-            .catch(function (err) {
-                return res.status(500).json({'error': 'Unable to verify the petowner'})
-            })
+            }, petownermodel)
+                .then(function (petownerFound) {
+                    if (petownerFound == null) {
+                        bcrypt.hash(password, 5, function (err, bcryptedPassword) {
+                            petownerService.create(req, res, bcryptedPassword)
+                        })
+                    } else {
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Petowner already exists"
+                        });
+                    }
+                })
+                .catch(function (err) {
+                    return res.status(500).json({'error': 'Unable to verify the petowner'})
+                })
+        }else{
+            res.status(504).json({'error': 'not good email format'});
+        }
     },
     login: function (req, res) {
 
@@ -50,32 +54,37 @@ module.exports = {
         if (email == null || password == null) {
             return res.status(400).json({'error': 'missing parameters'})
         }
-
         //TO DO VERIFIER MAIL REGEX
-        handler.getOne({
-            where: {
-                email: email
-            }
-        }, petownermodel)
-            .then(function (petownerFound) {
-                if (petownerFound != null) {
-                    bcrypt.compare(password, petownerFound.password, function (errBycrypt, resBycrypt) {
-                        if (resBycrypt) {
-                            return res.status(200).json({
-                                'idpetowner': petownerFound.idpetowner,
-                                'token': jwtUtils.generateTokenForPetowner(petownerFound)
-                            });
-                        } else {
-                            return res.status(403).json({'error': 'invalid password'});
-                        }
-                    })
-                } else {
-                    return res.status(404).json({'error': 'petowner not exist in DB'});
+        if(utils.validateEmail(email)){
+            handler.getOne({
+                where: {
+                    email: email
                 }
-            })
-            .catch(function (err) {
-                return res.status(500).json({'error': 'Unable to verify the petowner'})
-            })
+            }, petownermodel)
+                .then(function (petownerFound) {
+                    if (petownerFound != null) {
+                        bcrypt.compare(password, petownerFound.password, function (errBycrypt, resBycrypt) {
+                            if (resBycrypt) {
+                                return res.status(200).json({
+                                    'idpetowner': petownerFound.idpetowner,
+                                    'token': jwtUtils.generateTokenForPetowner(petownerFound)
+                                });
+                            } else {
+                                return res.status(403).json({'error': 'invalid password'});
+                            }
+                        })
+                    } else {
+                        return res.status(404).json({'error': 'petowner not exist in DB'});
+                    }
+                })
+                .catch(function (err) {
+                    return res.status(500).json({'error': 'Unable to verify the petowner'})
+                })
+        }else{
+            res.status(504).json({'error': 'not good email format'});
+        }
+
+
     }
 
 }
