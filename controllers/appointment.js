@@ -1,8 +1,43 @@
-var AppointmentService = require('../services/appointment')
+var AppointmentService = require('../services/appointment');
+var handler = require('../handlers/crudHandlers');
+var model = require('../models');
+var appointmentmodel = model.appointment;
 module.exports = {
+    create: function (req, res) {
+        console.log('create function');
+        var reason = req.body.reason;
+        var date = req.body.date;
+        var veterinary_nordinal = req.body.veterinary_nordinal;
+        var petowner_idpetownerappoint = req.body.petowner_idpetownerappoint;
+        var pet_idpetappoint = req.body.pet_idpetappoint;
 
-    create: (req, res, next) => {
-        AppointmentService.postAppointment(req, res);
+        //verifier si les parametres sont non nuls
+        if (reason == null || date == null || veterinary_nordinal == null || petowner_idpetownerappoint == null || pet_idpetappoint == null) {
+            return res.status(400).json({'error': 'missing parameters'});
+        }
+
+        //TO DO VERIFIER MAIL REGEX
+        handler.getOne({
+            where: {
+                date: date,
+                veterinary_nordinal: veterinary_nordinal
+            }
+        }, appointmentmodel)
+            .then(function (appointmentFound) {
+                console.log('appointmentFound : ' + appointmentFound);
+                if (appointmentFound == null) {
+                    console.log('appointmentFound if : ' + appointmentFound);
+                    AppointmentService.create(req,res)
+                } else {
+                    console.log('appointmentFound else : ' + appointmentFound);
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Veterinary not available"
+                    });
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to add an appointment'})
+            })
     },
 }
-// test git commit

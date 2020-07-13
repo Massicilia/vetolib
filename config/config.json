@@ -4,7 +4,7 @@
   "development": {
     "username": "vetolibdev",
     "password": "HMSDVBIO",
-    "database": "vetolib_dev",
+    "database": "vetolib",
     "host": "localhost",
     "dialect": "mysql",
     "logging": false

@@ -28,36 +28,33 @@ exports.postAppointment = async function (req, res, options) {
 }*/
 module.exports = {
 
-    postAppointment: (req,res) =>
-    {
+
+    create : (req,res) => {
         return new Promise((next) => {
-            db.appointment.findOrCreate({
-                where: {
+            console.log('service appointment');
+            var newAppointment = db.appointment.create(
+                {
                     reason: req.body.reason,
                     date: req.body.date,
                     veterinary_nordinal: req.body.veterinary_nordinal,
                     petowner_idpetownerappoint: req.body.petowner_idpetownerappoint,
                     pet_idpetappoint: req.body.pet_idpetappoint
-                }
-
-            })
-            .then(([newResult, created]) => {
-                console.log('IsNewRecord: ' + newResult.isNewRecord);
-                console.log('created: ' + created);
-                if (created) {
-                    return res.status(200).json({
-                        status: 200,
-                        message: "Succesfully Appointment Created"
-                    });
-                }else {
-                    return res.status(400).json({
-                        status: 400,
-                        message: "Veterinary not available"
-                    });
-                }
-            })
-            .catch((err) => next(err))
-            })
-            //NOTIFICATIONS A ENVOYER
+                })
+                .then(function(newAppointment) {
+                    console.log('service appointment then');
+                    return res.status(201).json({
+                        'idappointment': newAppointment.idappointment,
+                        'reason': newAppointment.reason,
+                        'date': newAppointment.date,
+                        'veterinary_nordinal': newAppointment.veterinary_nordinal,
+                        'petowner_idpetownerappoint': newAppointment.petowner_idpetownerappoint,
+                        'pet_idpetappoint': newAppointment.pet_idpetappoint
+                    })
+                })
+                .catch(function(err){
+                    console.log('service appointment then' + err);
+                    return res.status(500).json({'error': 'Can not add a new appointment'})
+                })
+        })
     }
 }
