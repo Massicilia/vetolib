@@ -3,6 +3,12 @@ var handler = require('../handlers/crudHandlers');
 var model = require('../models');
 var appointmentmodel = model.appointment;
 module.exports = {
+    /**
+     * 
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     create: function (req, res) {
         console.log('create function');
         var reason = req.body.reason;

@@ -3,7 +3,13 @@ var express = require('express');
 const db = require('../models');
 
 module.exports = {
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @param bcryptedPassword
+     * @returns {Promise<unknown>}
+     */
     create : (req,res,bcryptedPassword) => {
         return new Promise((next) => {
              var newPetowner = db.petowner.create(

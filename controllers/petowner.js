@@ -7,6 +7,12 @@ var model = require('../models')
 var petownermodel = model.petowner;
 
 module.exports = {
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     register: function (req, res) {
         var name = req.body.name;
         var surname = req.body.surname;
@@ -46,6 +52,12 @@ module.exports = {
             res.status(504).json({'error': 'not good email format'});
         }
     },
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     login: function (req, res) {
 
         var email = req.body.email;

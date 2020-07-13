@@ -3,6 +3,12 @@ var router = express.Router();
 const db = require('../models');
 
 module.exports = {
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {Promise<unknown>}
+     */
     create : (req,res) => {
         return new Promise((next) => {
             console.log('service appointment');

@@ -3,6 +3,12 @@ var router = express.Router();
 const db = require('../models');
 
 module.exports = {
+    /**
+     *
+     * @param option
+     * @param model
+     * @returns {Promise<T | void>}
+     */
     getByPk: (option, model) => {
         return model.findByPk(option)
                 .then(function(data) {
@@ -10,7 +16,13 @@ module.exports = {
                 })
                 .catch((err) => console.log(err));
     },
-
+    /**
+     * @param req
+     * @param res
+     * @param next
+     * @param model
+     * @returns {Promise<unknown>}
+     */
     getAll: (req, res, next, model) => {
         return new Promise((next) => {
             model.findAll()
@@ -20,7 +32,11 @@ module.exports = {
                 .catch((err) => console.log(err));
         })
     },
-
+    /**
+     * @param options
+     * @param model
+     * @returns {Promise<T | void>}
+     */
     getOne: (options,model) => {
         return model.findOne(options)
             .then(function(data) {
@@ -29,7 +45,12 @@ module.exports = {
             })
             .catch((err) => console.log(err));
     },
-
+    /**
+     *
+     * @param options
+     * @param model
+     * @returns {Promise<[Model, boolean]>}
+     */
     findOrCreate : (options,model) => {
         return model.findOrCreate(options)
                 .then(([newResult, created]) => {
@@ -52,7 +73,12 @@ module.exports = {
                     console.log(err)
                 })
     },
-
+    /**
+     *
+     * @param options
+     * @param model
+     * @returns {Promise<unknown>}
+     */
     create : (options,model) => {
         return new Promise((next) => {
             var newRecord = model.create(options)

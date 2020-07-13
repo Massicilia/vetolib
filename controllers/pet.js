@@ -3,10 +3,23 @@ var handler = require('../handlers/crudHandlers');
 var model = require('../models');
 var petmodel = model.pet;
 module.exports = {
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
     getPetsByPetowner: (req, res, next) => {
         PetService.pets(req,res,next);
     },
+
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {any}
+     */
     getPetDetails: (req, res, next) => {
         var idpet = req.body.idpet;
         if (idpet == null && idpet.isInteger()) {
