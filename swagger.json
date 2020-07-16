@@ -76,6 +76,57 @@
         "responses": {}
       }
     },
+    "/appointment/details": {
+      "get": {
+        "tags": ["Appointment"],
+        "summary": "returns an appointment's details",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "idappointment",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/appointment/agenda/veterinary": {
+      "get": {
+        "tags": ["Appointment"],
+        "summary": "returns all veterinaries appointments",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "veterinary_nordinal",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/appointment/agenda/petowner": {
+      "get": {
+        "tags": ["Appointment"],
+        "summary": "returns all petowners appointments",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "petowner_idpetownerappoint",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/petowner/register": {
       "post": {
         "tags": ["Petowner"],
@@ -148,7 +199,7 @@
     "/pet/bypetowner/{idpetowner}": {
       "get": {
         "tags": ["Pet"],
-        "summary": "pet",
+        "summary": "returns all pet's parameter",
         "consumes": [
           "application/json"
         ],
@@ -165,7 +216,7 @@
     "/pet/details": {
       "get": {
         "tags": ["Pet"],
-        "summary": "pet",
+        "summary": "returns all pet's parameter",
         "consumes": [
           "application/json"
         ],

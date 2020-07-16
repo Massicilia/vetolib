@@ -28,13 +28,7 @@ module.exports = {
 
         handler.getByPk(idpet, petmodel)
             .then(function (petFound) {
-                console.log('test');
                 if (petFound != null) {
-                    console.log('name:');
-                    console.log('name:'+ petFound.name);
-                    console.log('surname:'+ petFound.surname);
-                    console.log('age:'+ petFound.age);
-                    console.log('race:'+ petFound.race);
                     return res.status(200).json({
                         'idpet': petFound.idpet,
                         'name': petFound.name,

@@ -10,6 +10,6 @@ module.exports = {
      */
     getAllVeterinaries: (req, res, next) => {
         var veterinarymodel = model.veterinary;
-        handler.getAll(req,res,next,veterinarymodel);
+        handler.getAll(req,res,veterinarymodel,{});
     },
 }

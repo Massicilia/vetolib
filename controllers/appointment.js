@@ -49,4 +49,94 @@ module.exports = {
         }
 
     },
+
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {any}
+     */
+    get: (req, res, next) => {
+        var idappointment = req.body.idappointment;
+        if (idappointment == null && idappointment.isInteger()) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+
+        handler.getByPk(idappointment, appointmentmodel)
+            .then(function (appointmentFound) {
+                if (appointmentFound != null) {
+                    return res.status(200).json({
+                        'idappointment': appointmentFound.idappointment,
+                        'reason': appointmentFound.reason,
+                        'date': appointmentFound.date,
+                        'veterinary_nordinal': appointmentFound.veterinary_nordinal,
+                        'petowner_idpetownerappoint': appointmentFound.petowner_idpetownerappoint,
+                        'pet_idpetappoint': appointmentFound.pet_idpetappoint
+                    });
+                }
+                else {
+                    return res.status(404).json({'error': 'appointment does not exist in DB'});
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the appointment'})
+            })
+    },
+
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {any}
+     */
+    getByVeterinary: (req,res,next) => {
+        var veterinary_nordinal = req.body.veterinary_nordinal;
+        if (veterinary_nordinal == null && !Number.isInteger(veterinary_nordinal)) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+
+        handler.getAll(req, res, appointmentmodel, {
+            where: {
+                veterinary_nordinal: veterinary_nordinal }
+        })
+            .then(function (appointmentsFound) {
+                if (appointmentsFound != null) {
+                    return res.status(200).json(appointmentsFound);
+                }
+                else {
+                    return res.status(404).json({'error': 'appointments do not exist in DB'});
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the appointments'})
+            })
+    },
+
+    getByPetowner: (req,res,next) => {
+        console.log('controller');
+        var petowner_idpetownerappoint = req.body.petowner_idpetownerappoint;
+        if (petowner_idpetownerappoint == null && !Number.isInteger(petowner_idpetownerappoint)) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+        console.log('controller step 1');
+
+        handler.getAll(req, res, appointmentmodel, {
+            where: {
+                petowner_idpetownerappoint: petowner_idpetownerappoint }
+        })
+            .then(function (appointmentsFound) {
+                console.log('controller step 2');
+                if (appointmentsFound != null) {
+                    return res.status(200).json(appointmentsFound);
+                }
+                else {
+                    return res.status(404).json({'error': 'appointments do not exist in DB'});
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the appointments'})
+            })
+    },
 }

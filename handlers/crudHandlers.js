@@ -17,22 +17,6 @@ module.exports = {
                 .catch((err) => console.log(err));
     },
     /**
-     * @param req
-     * @param res
-     * @param next
-     * @param model
-     * @returns {Promise<unknown>}
-     */
-    getAll: (req, res, next, model) => {
-        return new Promise((next) => {
-            model.findAll()
-                .then(data => {
-                    res.json(data)
-                })
-                .catch((err) => console.log(err));
-        })
-    },
-    /**
      * @param options
      * @param model
      * @returns {Promise<T | void>}
@@ -89,5 +73,25 @@ module.exports = {
                     console.log(err)
                 })
         })
-    }
+    },
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @param model
+     * @param options
+     * @returns {Promise<unknown>}
+     */
+    getAll: (req, res, model,options) => {
+        return new Promise((next) => {
+            console.log('handler step 1');
+            model.findAll(options)
+                .then(data => {
+                    console.log('handler step 2');
+                    res.json(data)
+                })
+                .catch((err) => console.log(err));
+        })
+    },
 }
