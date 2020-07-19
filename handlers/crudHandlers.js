@@ -63,7 +63,7 @@ module.exports = {
      * @param model
      * @returns {Promise<unknown>}
      */
-    create : (options,model) => {
+   /** create : (options,model) => {
         return new Promise((next) => {
             var newRecord = model.create(options)
                 .then(function(newRecord) {
@@ -73,7 +73,7 @@ module.exports = {
                     console.log(err)
                 })
         })
-    },
+    },*/
     /**
      *
      * @param req
@@ -94,4 +94,16 @@ module.exports = {
                 .catch((err) => console.log(err));
         })
     },
+
+    create : (req,res,model,options) => {
+        return new Promise((next) => {
+            var newRecord = model.create(options)
+                .then(function(newRecord) {
+                    return res.status(201).json({ newRecord })
+                })
+                .catch(function(err){
+                    return res.status(500).json({'error': 'Can not add a new record'})
+                })
+        })
+    }
 }

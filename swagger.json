@@ -229,6 +229,78 @@
         ],
         "responses": {}
       }
+    },
+    "/pet": {
+      "post": {
+        "tags": ["Pet"],
+        "summary": "create a new pet",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "age",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "race",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "sex",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "weight",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "color",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "tatooID",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "chipID",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "sterilized",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "assurance",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "nassurance",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "petowner_idpetowner",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
     }
   },
   "swagger": "2.0"

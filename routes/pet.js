@@ -6,6 +6,8 @@ router.route('/bypetowner')
     .get(PetController.getPetsByPetowner)
 router.route('/details')
     .get(PetController.getPetDetails)
+router.route('/')
+    .post(PetController.post)
 
 
 module.exports = router;

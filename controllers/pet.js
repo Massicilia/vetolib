@@ -12,7 +12,6 @@ module.exports = {
     getPetsByPetowner: (req, res, next) => {
         PetService.pets(req,res,next);
     },
-
     /**
      *
      * @param req
@@ -52,5 +51,65 @@ module.exports = {
             .catch(function (err) {
                 return res.status(500).json({'error': 'Unable to get the pet'})
             })
-    }
+    },
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
+    post: (req, res) => {
+        var name = req.body.name;
+        var age = req.body.age;
+        var race = req.body.race;
+        var sex = req.body.sex;
+        var weight = req.body.weight;
+        var color = req.body.color;
+        var tatooID = req.body.tatooID;
+        var chipID = req.body.chipID;
+        var sterilized = req.body.sterilized;
+        var assurance = req.body.assurance;
+        var nassurance = req.body.nassurance;
+        var petowner_idpetowner = req.body.petowner_idpetowner;
+
+        //verifier si les parametres sont non nuls
+        if (name == null || age == null || race == null || sex == null || weight == null || color == null || tatooID == null
+        || chipID == null || sterilized == null || assurance == null || nassurance == null || petowner_idpetowner == null ) {
+            return res.status(400).json({'error': 'missing parameters'});
+        }
+
+        handler.getOne({
+            where: {
+                tatooID: tatooID,
+                chipID: chipID,
+                petowner_idpetowner: petowner_idpetowner
+            }
+        }, petmodel)
+            .then(function (petFound) {
+                if (petFound == null) {
+                    handler.create(req, res, petmodel, {
+                        name: req.body.name,
+                        age: req.body.age,
+                        race: req.body.race,
+                        sex: req.body.sex,
+                        weight: req.body.weight,
+                        color: req.body.color,
+                        tatooID: req.body.tatooID,
+                        chipID: req.body.chipID,
+                        sterilized: req.body.sterilized,
+                        assurance: req.body.assurance,
+                        nassurance: req.body.nassurance,
+                        petowner_idpetowner: req.body.petowner_idpetowner
+                    })
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Pet already exists"
+                    });
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to verify the pet'})
+            })
+    },
 }
