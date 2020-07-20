@@ -7,12 +7,13 @@ var bodyParser = require('body-parser');
 var config = require('./config/config.json');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-
+//routers
 var RouterIndex = require('./routes/index');
 var RouterAppointment = require('./routes/appointment');
 var RouterVeterinary = require('./routes/veterinary');
 var RouterPet = require('./routes/pet');
 var RouterPetowner = require('./routes/petowner').router;
+var RouterClinic = require('./routes/clinic').router;
 var app = express();
 
 
@@ -35,6 +36,7 @@ app.use(config.rootAPI + '/veterinary', RouterVeterinary);
 app.use(config.rootAPI + '/appointment', RouterAppointment);
 app.use(config.rootAPI + '/pet', RouterPet);
 app.use(config.rootAPI + '/petowner', RouterPetowner);
+app.use(config.rootAPI + '/clinic', RouterClinic);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

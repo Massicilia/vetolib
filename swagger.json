@@ -301,6 +301,52 @@
         ],
         "responses": {}
       }
+    },
+    "/clinic": {
+      "post": {
+        "tags": ["Clinic"],
+        "summary": "create a new clinic",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "nsiret",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "name",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "adress",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "email",
+            "path": "body",
+            "required": true
+          },
+          {
+            "name": "phonenum",
+            "path": "body",
+            "required": true
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": ["Clinic"],
+        "summary": "returns all clinics",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
     }
   },
   "swagger": "2.0"
