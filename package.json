@@ -15,10 +15,13 @@
     "cookie-parser": "^1.4.5",
     "debug": "^2.6.9",
     "express": "~4.16.1",
+    "express-jwt": "^6.0.0",
     "express-oas-generator": "^1.0.23",
     "hbs": "^4.1.1",
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.8.1",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "node-sass-middleware": "^0.11.0",
@@ -26,10 +29,9 @@
     "pug": "2.0.0-beta11",
     "save-dev": "0.0.1-security",
     "sequelize": "^6.2.4",
-    "sequelize-auto": "^0.4.29",
+    "sequelize-auto": "^0.5.2",
     "sequelize-cli": "^6.1.0",
-    "swagger-ui-express": "^4.1.4",
-    "morgan": "^1.10.0"
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "morgan": "^1.10.0"

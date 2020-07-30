@@ -16,7 +16,6 @@ var RouterPetowner = require('./routes/petowner').router;
 var RouterClinic = require('./routes/clinic').router;
 var app = express();
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.rootAPI + '/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
