@@ -11,7 +11,6 @@ module.exports = {
      * @param next
      */
     get: (req,res,next) => {
-console.log('controller');
         handler.getAll(req, res, clinicmodel, {})
             .then(function (clinicsFound) {
                 console.log('controller 1');

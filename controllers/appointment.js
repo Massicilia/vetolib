@@ -12,18 +12,11 @@ module.exports = {
      * @returns {any}
      */
     create: function (req, res) {
-        console.log('create function');
         var reason = req.body.reason;
         var date = req.body.date;
         var veterinary_nordinal = req.body.veterinary_nordinal;
         var petowner_idpetownerappoint = req.body.petowner_idpetownerappoint;
         var pet_idpetappoint = req.body.pet_idpetappoint;
-
-        console.log('reason: '+reason);
-        console.log('date: '+date);
-        console.log('veterinary_nordinal: '+veterinary_nordinal);
-        console.log('petowner_idpetownerappoint: '+petowner_idpetownerappoint);
-        console.log('pet_idpetappoint: '+ pet_idpetappoint);
 
 
         //verifier si les parametres sont non nuls

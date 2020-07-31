@@ -94,7 +94,14 @@ module.exports = {
                 .catch((err) => console.log(err));
         })
     },
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @param model
+     * @param options
+     * @returns {Promise<unknown>}
+     */
     create : (req,res,model,options) => {
         return new Promise((next) => {
             var newRecord = model.create(options)
@@ -105,5 +112,31 @@ module.exports = {
                     return res.status(500).json({'error': 'Can not add a new record'})
                 })
         })
+    },
+
+    /**
+     *
+     * @param req
+     * @param res
+     * @param model
+     * @param options
+     * @returns {Promise<unknown>}
+     */
+    delete : (req,res,model,options) => {
+        return new Promise((next) => {
+            console.log('before  promise : '+ req.params.idpet);
+            model.destroy(options)
+                .then(function(rowDeleted) {
+                    console.log('after then');
+                    console.log('rowdeleted: '+ rowDeleted);
+                    if (rowDeleted === 1) {
+                        console.log('deleted');
+                        res.status(200).json({message: "Deleted successfully"});
+                    } else {
+                        res.status(404).json({message: "record not found"})
+                    }
+                })
+                .catch((err) => console.log(err));
+                });
     }
 }

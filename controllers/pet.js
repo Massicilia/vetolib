@@ -112,4 +112,25 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to verify the pet'})
             })
     },
+
+    delete: (req,res) => {
+
+        var idpet = req.query.idpet;
+
+        //if (idpet == null || !Number.isInteger(idpet)) {
+        if (idpet == null) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+        console.log('controller');
+        handler.delete(req,res,petmodel,{
+            where: {
+                idpet: idpet }
+            })
+            .then(function () {
+                    return res.status(200).json('Pet deleted');
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to delete the pet'})
+            })
+    }
 }

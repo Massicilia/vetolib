@@ -8,6 +8,8 @@ router.route('/details')
     .get(PetController.getPetDetails)
 router.route('/')
     .post(PetController.post)
+router.route('/')
+    .delete(PetController.delete)
 
 
 module.exports = router;

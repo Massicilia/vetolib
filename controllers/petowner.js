@@ -97,6 +97,20 @@ module.exports = {
         }
 
 
-    }
+    },
+    /**
+     *
+     * @param req
+     * @param res
+     */
+    getAll: (req,res) => {
+        handler.getAll(req, res, petownermodel, {})
+            .then(function (petownersFound) {
+                    return res.status(200).json(petownersFound);
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the petowners'})
+            })
+    },
 
 }
