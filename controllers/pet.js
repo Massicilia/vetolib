@@ -112,7 +112,12 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to verify the pet'})
             })
     },
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     delete: (req,res) => {
 
         var idpet = req.query.idpet;
@@ -131,6 +136,62 @@ module.exports = {
             })
             .catch(function (err) {
                 return res.status(500).json({'error': 'Unable to delete the pet'})
+            })
+    },
+
+    update: (req,res) => {
+        var idpet = req.body.idpet;
+        var name = req.body.name;
+        var age = req.body.age;
+        var race = req.body.race;
+        var sex = req.body.sex;
+        var weight = req.body.weight;
+        var color = req.body.color;
+        var tatooID = req.body.tatooID;
+        var chipID = req.body.chipID;
+        var sterilized = req.body.sterilized;
+        var assurance = req.body.assurance;
+        var nassurance = req.body.nassurance;
+        var petowner_idpetowner = req.body.petowner_idpetowner;
+
+
+        var selector = {where : { idpet: idpet}};
+        var values = {
+                name: name,
+                age: age,
+                sex: sex,
+                weight: weight,
+                sterilized: sterilized,
+                assurance: assurance,
+                nassurance: nassurance};
+        //if (idpet == null || !Number.isInteger(idpet)) {
+        if (idpet == null || name == null || age == null || race == null || sex == null || weight == null || color == null || tatooID == null || chipID == null || sterilized == null || assurance == null || nassurance == null || petowner_idpetowner == null) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+        console.log("idpet: "+ idpet);
+        console.log("petowner_idpetowner: "+ petowner_idpetowner);
+        handler.getOne({
+            where: {
+                idpet: idpet,
+                petowner_idpetowner: petowner_idpetowner
+            }
+        }, petmodel)
+            .then(function (PetFound) {
+                console.log('PetFound : ' + PetFound.idpet);
+                console.log('ici');
+
+                if (PetFound != null) {
+                    console.log('PetFound if : ' + PetFound);
+                    handler.update(req,res,petmodel, selector, values)
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Pet not found"
+                    });
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to update the pet'})
             })
     }
 }

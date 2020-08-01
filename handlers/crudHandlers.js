@@ -24,7 +24,7 @@ module.exports = {
     getOne: (options,model) => {
         return model.findOne(options)
             .then(function(data) {
-                console.log("inside then function"+data);
+                console.log("inside then function"+data.idpet);
                 return data;
             })
             .catch((err) => console.log(err));
@@ -113,7 +113,6 @@ module.exports = {
                 })
         })
     },
-
     /**
      *
      * @param req
@@ -138,5 +137,21 @@ module.exports = {
                 })
                 .catch((err) => console.log(err));
                 });
+    },
+
+    update : (req,res,model,selector,values) => {
+        return new Promise((next) => {
+            console.log('update ser handler')
+            model.update(values, selector)
+                .then((affectedRows) => {
+                    console.log('update ser handler then '+ affectedRows);
+                    if (affectedRows == 1) {
+                        res.status(200).json({message: "Updated successfully"});
+                    } else {
+                        res.status(404).json({message: "less or more than one record affected"})
+                    }
+                })
+                .catch((err) => console.log(err));
+        })
     }
 }

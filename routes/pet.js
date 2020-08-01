@@ -10,6 +10,8 @@ router.route('/')
     .post(PetController.post)
 router.route('/')
     .delete(PetController.delete)
+router.route('/')
+    .put(PetController.update)
 
 
 module.exports = router;
