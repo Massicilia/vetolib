@@ -1,3 +1,6 @@
+var bcrypt = require('bcrypt');
+var jwtUtils = require('../utils/jwt.utils')
+var utils = require('../utils/functions')
 var handler = require('../handlers/crudHandlers')
 var model = require('../models')
 var veterinarymodel = model.veterinary;
@@ -18,6 +21,8 @@ module.exports = {
 
         var email = req.body.email;
         var password = req.body.password;
+        console.log('email ' + email);
+        console.log('password ' + password);
 
         if (email == null || password == null) {
             return res.status(400).json({'error': 'missing parameters'})
@@ -31,11 +36,11 @@ module.exports = {
             }, veterinarymodel)
                 .then(function (veterinaryFound) {
                     if (veterinaryFound != null) {
-                        bcrypt.compare(password, veterinaryFound.password, function (errBycrypt, resBycrypt) {
+                          bcrypt.compare(password, veterinaryFound.password, function (errBycrypt, resBycrypt) {
                             if (resBycrypt) {
                                 return res.status(200).json({
-                                    'idpetowner': veterinaryFound.nsiret,
-                                    'token': jwtUtils.generateTokenForPetowner(veterinaryFound)
+                                    'nsiret': veterinaryFound.nsiret,
+                                    'token': jwtUtils.generateTokenForVeterinary(veterinaryFound)
                                 });
                             } else {
                                 return res.status(403).json({'error': 'invalid password'});

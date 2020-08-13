@@ -11,7 +11,7 @@ const swaggerDocument = require('./swagger.json');
 //routers
 var RouterIndex = require('./routes/index');
 var RouterAppointment = require('./routes/appointment');
-var RouterVeterinary = require('./routes/veterinary');
+var RouterVeterinary = require('./routes/veterinary').router;
 var RouterPet = require('./routes/pet');
 var RouterPetowner = require('./routes/petowner').router;
 var RouterClinic = require('./routes/clinic').router;

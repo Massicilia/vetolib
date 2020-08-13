@@ -24,7 +24,6 @@ module.exports = {
     getOne: (options,model) => {
         return model.findOne(options)
             .then(function(data) {
-                console.log("inside then function"+data.idpet);
                 return data;
             })
             .catch((err) => console.log(err));

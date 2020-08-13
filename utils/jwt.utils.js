@@ -14,5 +14,19 @@ module.exports = {
             {
                 expiresIn: '1h'
             })
+    },
+    /**
+     *
+     * @param userData
+     * @returns {undefined|*}
+     */
+    generateTokenForVeterinary: function(userData){
+        return jwt.sign({
+                nsiret: userData.nsiret,
+            },
+            JWT_SIGN_SECRET,
+            {
+                expiresIn: '1h'
+            })
     }
 }
