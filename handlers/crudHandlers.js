@@ -138,7 +138,15 @@ module.exports = {
                 .catch((err) => console.log(err));
                 });
     },
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @param model
+     * @param selector
+     * @param values
+     * @returns {Promise<unknown>}
+     */
     update : (req,res,model,selector,values) => {
         return new Promise((next) => {
             console.log('update ser handler')
