@@ -90,7 +90,7 @@ module.exports = {
      * @returns {any}
      */
     getByVeterinary: (req,res,next) => {
-        var veterinary_nordinal = req.body.veterinary_nordinal;
+        var veterinary_nordinal = req.query.veterinary_nordinal;
         if (veterinary_nordinal == null && !Number.isInteger(veterinary_nordinal)) {
             return res.status(400).json({'error': 'missing parameters'})
         }
@@ -112,6 +112,13 @@ module.exports = {
             })
     },
 
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {any}
+     */
     getByPetowner: (req,res,next) => {
         console.log('controller');
         var petowner_idpetownerappoint = req.body.petowner_idpetownerappoint;
