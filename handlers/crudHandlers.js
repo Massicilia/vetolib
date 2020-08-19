@@ -103,7 +103,7 @@ module.exports = {
      */
     create : (req,res,model,options) => {
         return new Promise((next) => {
-            var newRecord = model.create(options)
+            model.create(options)
                 .then(function(newRecord) {
                     return res.status(201).json({ newRecord })
                 })
