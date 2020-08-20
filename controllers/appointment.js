@@ -56,7 +56,7 @@ module.exports = {
      * @returns {any}
      */
     get: (req, res, next) => {
-        var idappointment = req.body.idappointment;
+        var idappointment = req.query.idappointment;
         if (idappointment == null && idappointment.isInteger()) {
             return res.status(400).json({'error': 'missing parameters'})
         }
