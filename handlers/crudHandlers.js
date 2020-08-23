@@ -12,6 +12,7 @@ module.exports = {
     getByPk: (option, model) => {
         return model.findByPk(option)
                 .then(function(data) {
+                    console.log('data : '+data);
                     return data;
                 })
                 .catch((err) => console.log(err));

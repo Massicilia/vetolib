@@ -7,6 +7,7 @@ exports.router = (function() {
     petownerRouter.route('/register/').post(petownerController.register);
     petownerRouter.route('/login/').post(petownerController.login);
     petownerRouter.route('/all/').get(petownerController.getAll);
+    petownerRouter.route('/').get(petownerController.get);
 
     return petownerRouter;
 

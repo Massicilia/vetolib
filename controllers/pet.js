@@ -138,7 +138,12 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to delete the pet'})
             })
     },
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     update: (req,res) => {
         var idpet = req.body.idpet;
         var name = req.body.name;

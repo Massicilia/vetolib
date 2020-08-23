@@ -112,5 +112,39 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to get the petowners'})
             })
     },
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {any}
+     */
+    get: (req, res, next) => {
+        var idpetowner = req.query.idpetowner;
+        console.log('idpetowner : '+ idpetowner);
+        if (idpetowner == null && Number.isInteger(idpetowner)) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+
+        handler.getByPk(idpetowner, petownermodel)
+            .then(function (petownerFound) {
+                if (petownerFound != null) {
+                    return res.status(200).json({
+                        'idpetowner': petownerFound.idpetowner,
+                        'name': petownerFound.name,
+                        'surname': petownerFound.surname,
+                        'adress': petownerFound.adress,
+                        'email': petownerFound.email,
+                        'phonenum': petownerFound.phonenum,
+                    });
+                }
+                else {
+                    return res.status(404).json({'error': 'petowner not exist in DB'});
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the petowner'})
+            })
+    },
 
 }

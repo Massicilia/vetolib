@@ -68,6 +68,12 @@ module.exports = {
 
     },
 
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     register: function (req, res) {
         var nordinal = req.body.nordinal;
         var name = req.body.name;
