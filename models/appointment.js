@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     pet_idpetappoint: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'pet',
         key: 'idpet'
