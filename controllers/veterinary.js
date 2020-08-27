@@ -116,4 +116,39 @@ module.exports = {
             res.status(504).json({'error': 'not good email format'});
         }
     },
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {any}
+     */
+    get: (req, res, next) => {
+        var nordinal = req.query.nordinal;
+        console.log('nordinal : '+ nordinal);
+        if (nordinal == null && Number.isInteger(nordinal)) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+
+        handler.getByPk(nordinal, veterinarymodel)
+            .then(function (veterinaryFound) {
+                if (veterinaryFound != null) {
+                    return res.status(200).json({
+                        'nordinal': veterinaryFound.nordinal,
+                        'name': veterinaryFound.name,
+                        'surname': veterinaryFound.surname,
+                        'adress': veterinaryFound.adress,
+                        'email': veterinaryFound.email,
+                        'phonenum': veterinaryFound.phonenum,
+                        'clinic_nsiret': veterinaryFound.clinic_nsiret,
+                    });
+                }
+                else {
+                    return res.status(404).json({'error': 'veterinary not exist in DB'});
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the veterinary'})
+            })
+    },
 }
