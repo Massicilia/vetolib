@@ -18,7 +18,6 @@ module.exports = {
         var veterinarymodel = model.veterinary;
         handler.getAll(req,res,veterinarymodel,{});
     },
-
     /**
      *
      * @param req
@@ -67,7 +66,6 @@ module.exports = {
 
 
     },
-
     /**
      *
      * @param req
@@ -151,4 +149,54 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to get the veterinary'})
             })
     },
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
+    update: (req,res) => {
+        var nordinal = req.body.nordinal;
+        var surname = req.body.surname;
+        var name = req.body.name;
+        var adress = req.body.adress;
+        var email = req.body.email;
+        var phonenum = req.body.phonenum;
+        var password = req.body.password;
+
+        var selector = {where : { nordinal: nordinal}};
+        var values = {
+            surname: surname,
+            name: name,
+            adress: adress,
+            email: email,
+            phonenum: phonenum,
+            password: password
+        }
+        if (surname == null || name == null || adress == null || email == null || phonenum == null || password == null ) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+        handler.getOne({
+            where: {
+                nordinal: nordinal
+            }
+        }, veterinarymodel)
+            .then(function (VeterinaryFound) {
+                console.log('VeterinaryFound : ' + VeterinaryFound.nordinal);
+                console.log('ici');
+
+                if (VeterinaryFound != null) {
+                    console.log('VeterinaryFound if : ' + VeterinaryFound);
+                    handler.update(req,res,veterinarymodel, selector, values)
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Veterinary not found"
+                    });
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to update the veterinary'})
+            })
+    }
 }
