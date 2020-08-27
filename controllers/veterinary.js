@@ -47,7 +47,7 @@ module.exports = {
                           bcrypt.compare(password, veterinaryFound.password, function (errBycrypt, resBycrypt) {
                             if (resBycrypt) {
                                 return res.status(200).json({
-                                    'nsiret': veterinaryFound.nsiret,
+                                    'nordinal': veterinaryFound.nordinal,
                                     'token': jwtUtils.generateTokenForVeterinary(veterinaryFound)
                                 });
                             } else {
