@@ -94,9 +94,9 @@ module.exports = {
                     nordinal: nordinal,
                     email: email
                 }
-            }, subscriptionrequestmodel)
-                .then(function (subscriptionrequestFound) {
-                    if (subscriptionrequestFound == null) {
+            }, veterinarymodel)
+                .then(function (veterinaryFound) {
+                    if (veterinaryFound == null) {
                         bcrypt.hash(password, 5, function (err, bcryptedPassword) {
                             veterinaryService.create(req, res, bcryptedPassword)
                         })
