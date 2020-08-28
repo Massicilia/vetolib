@@ -5,6 +5,7 @@ exports.router = (function() {
     var clinicRouter = express.Router();
 
     clinicRouter.route('/').post(clinicController.post);
+    clinicRouter.route('/').put(clinicController.update);
     clinicRouter.route('/').get(clinicController.get);
     clinicRouter.route('/all').get(clinicController.getAll);
 

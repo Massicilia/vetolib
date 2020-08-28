@@ -103,4 +103,50 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to verify the clinic'})
             })
     },
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
+    update: (req,res) => {
+        var nsiret = req.body.nsiret;
+        var name = req.body.name;
+        var adress = req.body.adress;
+        var email = req.body.email;
+        var phonenum = req.body.phonenum;
+
+        var selector = {where : { nsiret: nsiret}};
+        var values = {
+            name: name,
+            adress: adress,
+            email: email,
+            phonenum: phonenum
+        }
+        if (nsiret == null || name == null || adress == null || email == null || phonenum == null) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+        handler.getOne({
+            where: {
+                nsiret: nsiret
+            }
+        }, clinicmodel)
+            .then(function (ClinicFound) {
+                console.log('ClinicFound : ' + ClinicFound.nsiret);
+                console.log('ici');
+
+                if (ClinicFound != null) {
+                    console.log('ClinicFound if : ' + ClinicFound);
+                    handler.update(req,res,clinicmodel, selector, values)
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Clinic not found"
+                    });
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to update the clinic'})
+            })
+    }
 }
