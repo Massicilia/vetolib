@@ -9,8 +9,41 @@ module.exports = {
      * @param req
      * @param res
      * @param next
+     * @returns {any}
      */
-    get: (req,res,next) => {
+    get: (req, res, next) => {
+        var nsiret = req.query.nsiret;
+        console.log('nsiret : '+ nsiret);
+        if (nsiret == null && Number.isInteger(nsiret)) {
+            return res.status(400).json({'error': 'missing parameters'})
+        }
+
+        handler.getByPk(nsiret, clinicmodel)
+            .then(function (clinicFound) {
+                if (clinicFound != null) {
+                    return res.status(200).json({
+                        'nsiret': clinicFound.nsiret,
+                        'name': clinicFound.name,
+                        'adress': clinicFound.adress,
+                        'email': clinicFound.email,
+                        'phonenum': clinicFound.phonenum
+                    });
+                }
+                else {
+                    return res.status(404).json({'error': 'clinic not exist in DB'});
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': 'Unable to get the clinic'})
+            })
+    },
+    /**
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    getAll: (req,res,next) => {
         handler.getAll(req, res, clinicmodel, {})
             .then(function (clinicsFound) {
                 console.log('controller 1');

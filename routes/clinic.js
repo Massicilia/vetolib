@@ -6,6 +6,7 @@ exports.router = (function() {
 
     clinicRouter.route('/').post(clinicController.post);
     clinicRouter.route('/').get(clinicController.get);
+    clinicRouter.route('/all').get(clinicController.getAll);
 
     return clinicRouter;
 
