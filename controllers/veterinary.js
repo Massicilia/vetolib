@@ -171,8 +171,9 @@ module.exports = {
             adress: adress,
             email: email,
             phonenum: phonenum,
-            password: password
+            password: bcrypt.hash(password, 5)
         }
+
         if (surname == null || name == null || adress == null || email == null || phonenum == null || password == null ) {
             return res.status(400).json({'error': 'missing parameters'})
         }
