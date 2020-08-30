@@ -59,23 +59,6 @@ module.exports = {
     },
     /**
      *
-     * @param options
-     * @param model
-     * @returns {Promise<unknown>}
-     */
-   /** create : (options,model) => {
-        return new Promise((next) => {
-            var newRecord = model.create(options)
-                .then(function(newRecord) {
-                    return newRecord
-                })
-                .catch(function(err){
-                    console.log(err)
-                })
-        })
-    },*/
-    /**
-     *
      * @param req
      * @param res
      * @param next
@@ -88,7 +71,7 @@ module.exports = {
             console.log('handler step 1');
             model.findAll(options)
                 .then(data => {
-                    console.log('handler step 2');
+                    console.log('handler step 2 : ' + data );
                     res.json(data)
                 })
                 .catch((err) => console.log(err));

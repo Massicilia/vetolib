@@ -14,7 +14,8 @@ module.exports = {
      * @param res
      * @param next
      */
-    getAllVeterinaries: (req, res, next) => {
+    getAllVeterinaries: (req, res) => {
+
         var veterinarymodel = model.veterinary;
         handler.getAll(req,res,veterinarymodel,{});
     },

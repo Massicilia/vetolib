@@ -15,6 +15,7 @@ var RouterVeterinary = require('./routes/veterinary').router;
 var RouterPet = require('./routes/pet');
 var RouterPetowner = require('./routes/petowner').router;
 var RouterClinic = require('./routes/clinic').router;
+var RouterInvoice = require('./routes/invoice');
 var app = express();
 
 app.use(bodyParser.json());
@@ -45,12 +46,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//cron jobs
+const invoicesGeneration = require('./use_case/InvoiceGeneration');
+const cron = require("node-cron");
+/*cron.schedule("* * * * *", function () {
+  console.log("Running Cron Job");
+  //var invoicesGeneration = new InvoicesGeneration();
+  invoicesGeneration.generateInvoices();
+});*/
+
 app.use(config.rootAPI, RouterIndex);
 app.use(config.rootAPI + '/veterinary', RouterVeterinary);
 app.use(config.rootAPI + '/appointment', RouterAppointment);
 app.use(config.rootAPI + '/pet', RouterPet);
 app.use(config.rootAPI + '/petowner', RouterPetowner);
 app.use(config.rootAPI + '/clinic', RouterClinic);
+app.use(config.rootAPI + '/invoice', RouterInvoice);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

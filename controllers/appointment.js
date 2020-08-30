@@ -89,7 +89,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    getByVeterinary: (req,res,next) => {
+    getByVeterinary: (req,res) => {
         var veterinary_nordinal = req.query.veterinary_nordinal;
         if (veterinary_nordinal == null && !Number.isInteger(veterinary_nordinal)) {
             return res.status(400).json({'error': 'missing parameters'})
