@@ -55,6 +55,24 @@ const cron = require("node-cron");
   invoicesGeneration.generateInvoices();
 });*/
 
+
+// Set your secret key. Remember to switch to your live secret key in production!
+// See your keys here: https://dashboard.stripe.com/account/apikeys
+const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
+const expressHandlebars = require('express-handlebars');
+
+app.engine('.hbs', expressHandlebars({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
+app.set('views', './views');
+
+app.get('/card-wallet', async (req, res) => {
+  const intent =  await stripe.setupIntents.create({
+    veterinary: nordinal,
+  });
+  res.render('card_wallet', { client_secret: intent.client_secret });
+});
+//////
+
 app.use(config.rootAPI, RouterIndex);
 app.use(config.rootAPI + '/veterinary', RouterVeterinary);
 app.use(config.rootAPI + '/appointment', RouterAppointment);
