@@ -45,7 +45,12 @@ module.exports = {
                 res.status(500).json({'error': 'Unable to get the veterinaries'})
             })
     },
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     getInvoices: function (req, res) {
         var veterinary_nordinal = req.query.veterinary_nordinal;
         if (veterinary_nordinal == null && !Number.isInteger(veterinary_nordinal)) {
