@@ -20,7 +20,7 @@ module.exports = {
 
 
         //verifier si les parametres sont non nuls
-        if (reason == null || date == null || veterinary_nordinal == null || petowner_idpetownerappoint == null || !Number.isInteger(veterinary_nordinal) || !Number.isInteger(petowner_idpetownerappoint) ) {
+        if (reason == null || date == null || veterinary_nordinal == null || petowner_idpetownerappoint == null ) {
             return res.status(400).json({'error': 'missing or invalide parameters'});
         }
         handler.getOne({

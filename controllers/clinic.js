@@ -43,16 +43,13 @@ module.exports = {
      * @param res
      * @param next
      */
-    getAll: (req,res,next) => {
+    getAll: (req,res) => {
         handler.getAll(req, res, clinicmodel, {})
             .then(function (clinicsFound) {
-                console.log('controller 1');
                 if (clinicsFound != null) {
-                    console.log('controller 2');
                     return res.status(200).json(clinicsFound);
                 }
                 else {
-                    console.log('controller 3');
                     return res.status(404).json({'error': 'clinics do not exist in DB'});
                 }
             })
