@@ -159,7 +159,6 @@ module.exports = {
         var nassurance = req.body.nassurance;
         var petowner_idpetowner = req.body.petowner_idpetowner;
 
-
         var selector = {where : { idpet: idpet}};
         var values = {
                 name: name,
