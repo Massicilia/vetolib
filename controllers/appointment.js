@@ -120,7 +120,7 @@ module.exports = {
      */
     getByPetowner: (req,res,next) => {
         console.log('controller');
-        var petowner_idpetownerappoint = req.body.petowner_idpetownerappoint;
+        var petowner_idpetownerappoint = req.query.petowner_idpetownerappoint;
         if (petowner_idpetownerappoint == null && !Number.isInteger(petowner_idpetownerappoint)) {
             return res.status(400).json({'error': 'missing parameters'})
         }
