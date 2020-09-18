@@ -18,6 +18,7 @@ var RouterClinic = require('./routes/clinic').router;
 var RouterInvoice = require('./routes/invoice');
 var RouterConsultation = require('./routes/consultation').router;
 var RouterAdministrator = require('./routes/administrator').router;
+var RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
 var app = express();
 
 app.use(bodyParser.json());
@@ -84,6 +85,7 @@ app.use(config.rootAPI + '/clinic', RouterClinic);
 app.use(config.rootAPI + '/invoice', RouterInvoice);
 app.use(config.rootAPI + '/consultation', RouterConsultation);
 app.use(config.rootAPI + '/administrator', RouterAdministrator);
+app.use(config.rootAPI + '/subscriptionrequest', RouterSubscriptionRequest);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
