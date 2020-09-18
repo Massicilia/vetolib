@@ -119,7 +119,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    get: (req, res, next) => {
+    get: (req, res) => {
         var idpetowner = req.query.idpetowner;
         console.log('idpetowner : '+ idpetowner);
         if (idpetowner == null && Number.isInteger(idpetowner)) {

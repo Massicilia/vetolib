@@ -8,6 +8,7 @@ exports.router = (function() {
   veterinaryRouter.route('/register/').post(veterinaryController.register);
   veterinaryRouter.route('/').put(veterinaryController.update);
   veterinaryRouter.route('/all/').get(veterinaryController.getAllVeterinaries);
+  veterinaryRouter.route('/new').post(veterinaryController.create);
   veterinaryRouter.route('/').get(veterinaryController.get);
 
   return veterinaryRouter;

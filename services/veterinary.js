@@ -4,7 +4,7 @@ const db = require('../models');
 
 module.exports = {
     /**
-     *
+     * CREATE A SUBSCRIPTION REQUEST
      * @param req
      * @param res
      * @param bcryptedPassword
@@ -41,6 +41,47 @@ module.exports = {
                 .catch(function(err){
                     console.log('err : '+ err);
                     return res.status(500).json({'error': 'Can not send a new subscription request'})
+                })
+        })
+    },
+    /**
+     * ADD A NEW VETERINAY BY THE ADMINISTRATOR
+     * @param req
+     * @param res
+     * @param bcryptedPassword
+     * @returns {Promise<unknown>}
+     */
+    add : (req,res,veterinary) => {
+        console.log(veterinary.nordinal);
+        return new Promise((next) => {
+            db.veterinary.create(
+                {
+                    nordinal: veterinary.nordinal,
+                    name: veterinary.name,
+                    surname: veterinary.surname,
+                    adress: veterinary.adress,
+                    email: veterinary.email,
+                    phonenum: veterinary.phonenum,
+                    clinic_nsiret: veterinary.clinic_nsiret,
+                    username: veterinary.username,
+                    password: veterinary.password
+                })
+                .then(function(newVeterinary) {
+                    return res.status(201).json({
+                        'nordinal': newVeterinary.nordinal,
+                        'name': newVeterinary.name,
+                        'surname': newVeterinary.surname,
+                        'adress': newVeterinary.adress,
+                        'email': newVeterinary.email,
+                        'phonenum': newVeterinary.phonenum,
+                        'clinic_nsiret': newVeterinary.clinic_nsiret,
+                        'username': newVeterinary.username,
+                        'password': newVeterinary.password,
+                    })
+                })
+                .catch(function(err){
+                    console.log('err : '+ err);
+                    return res.status(500).json({'error': 'Can not create a new veterinary'})
                 })
         })
     }

@@ -68,7 +68,7 @@ module.exports = {
 
     },
     /**
-     *
+     * CREATE SUBSCRIPTION REQUEST
      * @param req
      * @param res
      * @returns {any}
@@ -122,7 +122,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    get: (req, res, next) => {
+    get: (req, res) => {
         var nordinal = req.query.nordinal;
         console.log('nordinal : '+ nordinal);
         if (nordinal == null && Number.isInteger(nordinal)) {
@@ -156,7 +156,7 @@ module.exports = {
      * @param res
      * @returns {any}
      */
-    update: (req,res) => {
+    update: (req, res) => {
         var nordinal = req.body.nordinal;
         var surname = req.body.surname;
         var name = req.body.name;
@@ -200,5 +200,39 @@ module.exports = {
             .catch(function (err) {
                 return res.status(500).json({'error': 'Unable to update the veterinary'})
             })
-    }
+    },
+    /**
+     * CREATE NEW VETERINARY
+     * @param req
+     * @param res
+     * @returns {any}
+     */
+    create: (req, res) => {
+        var nordinal = req.query.nordinal;
+
+        //verifier si les parametres sont non nuls
+        if (nordinal == null) {
+            return res.status(400).json({'error': 'missing or invalide parameters'});
+        }
+        handler.getOne({
+            where: {
+                nordinal: nordinal
+            }
+        }, subscriptionrequestmodel)
+            .then(function (subscriptionrequestFound) {
+                if(subscriptionrequestFound != null){
+                    veterinaryService.add(req,res,subscriptionrequestFound)
+                }else{
+                    return res.status(400).json({
+                        status: 400,
+                        message: "No subscription request found"
+                    });
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+                return res.status(500).json({'error': 'Unable to create a new veterinary'})
+            })
+
+    },
 }

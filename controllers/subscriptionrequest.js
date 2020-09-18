@@ -21,7 +21,12 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to get the subscription requests'})
             })
     },
-
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {any}
+     */
     delete: (req,res) => {
 
         var nordinal = req.query.nordinal;
@@ -40,4 +45,5 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to delete the subscription request'})
             })
     },
+
 }
