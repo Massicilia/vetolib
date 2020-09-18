@@ -208,7 +208,7 @@ module.exports = {
      * @returns {any}
      */
     create: (req, res) => {
-        var nordinal = req.query.nordinal;
+        var nordinal = req.body.nordinal;
 
         //verifier si les parametres sont non nuls
         if (nordinal == null) {
