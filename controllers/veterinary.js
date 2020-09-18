@@ -25,7 +25,7 @@ module.exports = {
      * @param res
      * @returns {any}
      */
-    login: function (req, res) {
+    login: (req, res) => {
 
         var email = req.body.email;
         var password = req.body.password;
@@ -73,7 +73,7 @@ module.exports = {
      * @param res
      * @returns {any}
      */
-    register: function (req, res) {
+    register: (req, res) => {
         var nordinal = req.body.nordinal;
         var name = req.body.name;
         var surname = req.body.surname;

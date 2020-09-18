@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../models');
-
+var handler = require('../handlers/crudHandlers');
+var subscriptionrequestmodel = db.subscriptionrequest;
 module.exports = {
     /**
      * CREATE A SUBSCRIPTION REQUEST
@@ -67,6 +68,11 @@ module.exports = {
                     password: veterinary.password
                 })
                 .then(function(newVeterinary) {
+                    handler.delete(req,res,subscriptionrequestmodel,{
+                        where : {
+                            nordinal : veterinary.nordinal
+                        }
+                    })
                     return res.status(201).json({
                         'nordinal': newVeterinary.nordinal,
                         'name': newVeterinary.name,
