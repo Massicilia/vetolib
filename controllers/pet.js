@@ -19,7 +19,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    getPetDetails: (req, res, next) => {
+    getPetDetails: (req, res) => {
         var idpet = req.query.idpet;
         if (idpet == null && idpet.isInteger()) {
             return res.status(400).json({'error': 'missing parameters'})
