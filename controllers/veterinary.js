@@ -1,11 +1,11 @@
-var bcrypt = require('bcrypt');
-var jwtUtils = require('../utils/jwt.utils')
-var utils = require('../utils/functions')
-var handler = require('../handlers/crudHandlers');
-var veterinaryService = require('../services/veterinary');
-var model = require('../models')
-var veterinarymodel = model.veterinary;
-var subscriptionrequestmodel = model.subscriptionrequest;
+const bcrypt = require('bcrypt');
+const jwtUtils = require('../utils/jwt.utils')
+const utils = require('../utils/functions')
+const handler = require('../handlers/crudHandlers');
+const veterinaryService = require('../services/veterinary');
+const model = require('../models')
+const veterinarymodel = model.veterinary;
+const subscriptionrequestmodel = model.subscriptionrequest;
 const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
 
 module.exports = {

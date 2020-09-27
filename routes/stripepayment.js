@@ -4,9 +4,9 @@ var router = express.Router();
 var StripePaymentController = require('../controllers/stripepayment')
 router.route('')
     .post(StripePaymentController.create)
-router.route('')
+router.route('/all')
     .get(StripePaymentController.getAllCreditCards)
-router.route('/test')
-    .post(StripePaymentController.test)
+router.route('')
+    .post(StripePaymentController.register)
 
 module.exports = router;

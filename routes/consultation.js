@@ -5,6 +5,7 @@ exports.router = (function() {
     var consultationRouter = express.Router();
 
     consultationRouter.route('/').get(consultationController.getAll);
+    consultationRouter.route('/').post(consultationController.create);
 
     return consultationRouter;
 
