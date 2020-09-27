@@ -6,6 +6,8 @@ var veterinaryService = require('../services/veterinary');
 var model = require('../models')
 var veterinarymodel = model.veterinary;
 var subscriptionrequestmodel = model.subscriptionrequest;
+const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
+
 module.exports = {
 
     /**
@@ -209,11 +211,21 @@ module.exports = {
      */
     create: (req, res) => {
         var nordinal = req.body.nordinal;
+        var customerID = null;
 
-        //verifier si les parametres sont non nuls
+        stripe.customers.create()
+            .then(function (customer) {
+                customerID = customer.id
+            })
+            .catch(function (error) {
+                console.log(error);
+                return res.status(505).json({'error': 'Unable to create a new customer in payment module'})
+            })
+
         if (nordinal == null) {
             return res.status(400).json({'error': 'missing or invalide parameters'});
         }
+
         handler.getOne({
             where: {
                 nordinal: nordinal
@@ -221,7 +233,7 @@ module.exports = {
         }, subscriptionrequestmodel)
             .then(function (subscriptionrequestFound) {
                 if(subscriptionrequestFound != null){
-                    veterinaryService.add(req,res,subscriptionrequestFound)
+                    veterinaryService.add(req,res,subscriptionrequestFound, customerID)
                 }else{
                     return res.status(400).json({
                         status: 400,

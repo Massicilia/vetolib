@@ -1,8 +1,6 @@
-var express = require('express');
-var router = express.Router();
 const db = require('../models');
-var handler = require('../handlers/crudHandlers');
-var subscriptionrequestmodel = db.subscriptionrequest;
+const handler = require('../handlers/crudHandlers');
+const subscriptionrequestmodel = db.subscriptionrequest;
 module.exports = {
     /**
      * CREATE A SUBSCRIPTION REQUEST
@@ -52,20 +50,21 @@ module.exports = {
      * @param bcryptedPassword
      * @returns {Promise<unknown>}
      */
-    add : (req,res,veterinary) => {
+    add : (req,res,subscriptionrequest, customerID) => {
         console.log(veterinary.nordinal);
         return new Promise((next) => {
             db.veterinary.create(
                 {
-                    nordinal: veterinary.nordinal,
-                    name: veterinary.name,
-                    surname: veterinary.surname,
-                    adress: veterinary.adress,
-                    email: veterinary.email,
-                    phonenum: veterinary.phonenum,
-                    clinic_nsiret: veterinary.clinic_nsiret,
-                    username: veterinary.username,
-                    password: veterinary.password
+                    nordinal: subscriptionrequest.nordinal,
+                    name: subscriptionrequest.name,
+                    surname: subscriptionrequest.surname,
+                    adress: subscriptionrequest.adress,
+                    email: subscriptionrequest.email,
+                    phonenum: subscriptionrequest.phonenum,
+                    clinic_nsiret: subscriptionrequest.clinic_nsiret,
+                    username: subscriptionrequest.username,
+                    password: subscriptionrequest.password,
+                    customerID: customerID
                 })
                 .then(function(newVeterinary) {
                     handler.delete(req,res,subscriptionrequestmodel,{
@@ -83,6 +82,7 @@ module.exports = {
                         'clinic_nsiret': newVeterinary.clinic_nsiret,
                         'username': newVeterinary.username,
                         'password': newVeterinary.password,
+                        'customerID': newVeterinary.customerID,
                     })
                 })
                 .catch(function(err){

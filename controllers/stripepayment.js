@@ -35,6 +35,12 @@ module.exports = {
         })
             .then(intents => res.render(intents))
             .catch(error => console.error(error))
+    },
+    test: async (req, res) => {
+        var veterinary_nordinal = req.query.veterinary_nordinal
+        const customer = await stripe.customers.create();
+        console.log('veterinary_nordinal : ' + veterinary_nordinal);
+        console.log('customer : ' + customer.id);
     }
 
 }
