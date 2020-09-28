@@ -1,10 +1,10 @@
-var bcrypt = require('bcrypt');
-var jwtUtils = require('../utils/jwt.utils');
-var utils = require('../utils/functions');
-var handler = require('../handlers/crudHandlers');
-var petownerService = require('../services/petowner');
-var model = require('../models')
-var petownermodel = model.petowner;
+const bcrypt = require('bcrypt');
+const jwtUtils = require('../utils/jwt.utils');
+const utils = require('../utils/functions');
+const handler = require('../handlers/crudHandlers');
+const petownerService = require('../services/petowner');
+const model = require('../models');
+const petownermodel = model.petowner;
 
 module.exports = {
     /**
@@ -121,7 +121,6 @@ module.exports = {
      */
     get: (req, res) => {
         var idpetowner = req.query.idpetowner;
-        console.log('idpetowner : '+ idpetowner);
         if (idpetowner == null && Number.isInteger(idpetowner)) {
             return res.status(400).json({'error': 'missing parameters'})
         }
@@ -145,6 +144,5 @@ module.exports = {
             .catch(function (err) {
                 return res.status(500).json({'error': 'Unable to get the petowner'})
             })
-    },
-
+    }
 }

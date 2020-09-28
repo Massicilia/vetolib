@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+const mailer = require('../handlers/mailer');
 const db = require('../models');
 
 module.exports = {
@@ -11,7 +10,6 @@ module.exports = {
      */
     create : (req,res) => {
         return new Promise((next) => {
-            console.log('service appointment');
             var newAppointment = db.appointment.create(
                 {
                     reason: req.body.reason,
@@ -21,7 +19,11 @@ module.exports = {
                     pet_idpetappoint: req.body.pet_idpetappoint
                 })
                 .then(function(newAppointment) {
-                    console.log('service appointment then');
+                    // send email to notify to the petowner
+                    let to = newAppointment.petowner_idpetownerappoint;
+                    let mailSubject = "VETOLIB : Prise de rendez-vous "
+                    let mailText = "Vous avez pris rendez-vous chez Vetolib le "+newAppointment.date;
+                    mailer.sendToPetowner(req, res, {to,mailSubject,mailText});
                     return res.status(201).json({
                         'idappointment': newAppointment.idappointment,
                         'reason': newAppointment.reason,
@@ -32,7 +34,6 @@ module.exports = {
                     })
                 })
                 .catch(function(err){
-                    console.log('service appointment then' + err);
                     return res.status(500).json({'error': 'Can not add a new appointment'})
                 })
         })

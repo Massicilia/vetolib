@@ -1,7 +1,6 @@
-var PetService = require('../services/pet');
-var handler = require('../handlers/crudHandlers');
-var model = require('../models');
-var clinicmodel = model.clinic;
+const handler = require('../handlers/crudHandlers');
+const model = require('../models');
+const clinicmodel = model.clinic;
 
 module.exports = {
     /**
@@ -11,7 +10,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    get: (req, res, next) => {
+    get: (req, res) => {
         var nsiret = req.query.nsiret;
         console.log('nsiret : '+ nsiret);
         if (nsiret == null && Number.isInteger(nsiret)) {

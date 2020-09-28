@@ -1,8 +1,7 @@
-const moment= require('moment')
-var AppointmentService = require('../services/appointment');
-var handler = require('../handlers/crudHandlers');
-var model = require('../models');
-var appointmentmodel = model.appointment;
+const AppointmentService = require('../services/appointment');
+const handler = require('../handlers/crudHandlers');
+const model = require('../models');
+const appointmentmodel = model.appointment;
 
 module.exports = {
     /**
@@ -16,9 +15,6 @@ module.exports = {
         var date = req.body.date;
         var veterinary_nordinal = req.body.veterinary_nordinal;
         var petowner_idpetownerappoint = req.body.petowner_idpetownerappoint;
-        var pet_idpetappoint = req.body.pet_idpetappoint;
-
-
         //verifier si les parametres sont non nuls
         if (reason == null || date == null || veterinary_nordinal == null || petowner_idpetownerappoint == null ) {
             return res.status(400).json({'error': 'missing or invalide parameters'});
@@ -30,12 +26,10 @@ module.exports = {
             }
         }, appointmentmodel)
             .then(function (appointmentFound) {
-                console.log('appointmentFound : ' + appointmentFound);
                 if (appointmentFound == null) {
-                    console.log('appointmentFound if : ' + appointmentFound);
+                    console.log('appointmentfound == null');
                     AppointmentService.create(req,res)
                 } else {
-                    console.log('appointmentFound else : ' + appointmentFound);
                     return res.status(400).json({
                         status: 400,
                         message: "Veterinary not available"
@@ -54,7 +48,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    get: (req, res, next) => {
+    get: (req, res) => {
         var idappointment = req.query.idappointment;
         if (idappointment == null && idappointment.isInteger()) {
             return res.status(400).json({'error': 'missing parameters'})
@@ -80,7 +74,6 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to get the appointment'})
             })
     },
-
     /**
      *
      * @param req
@@ -110,7 +103,6 @@ module.exports = {
                 return res.status(500).json({'error': 'Unable to get the appointments'})
             })
     },
-
     /**
      *
      * @param req
@@ -118,7 +110,7 @@ module.exports = {
      * @param next
      * @returns {any}
      */
-    getByPetowner: (req,res,next) => {
+    getByPetowner: (req,res) => {
         console.log('controller');
         var petowner_idpetownerappoint = req.query.petowner_idpetownerappoint;
         if (petowner_idpetownerappoint == null && !Number.isInteger(petowner_idpetownerappoint)) {

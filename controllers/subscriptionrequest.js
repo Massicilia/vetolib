@@ -1,6 +1,7 @@
-var handler = require('../handlers/crudHandlers');
-var model = require('../models')
-var subscriptionrequestmodel = model.subscriptionrequest;
+const handler = require('../handlers/crudHandlers');
+const mailer = require('../handlers/mailer');
+const model = require('../models')
+const subscriptionrequestmodel = model.subscriptionrequest;
 module.exports = {
     /**
      *
@@ -28,9 +29,7 @@ module.exports = {
      * @returns {any}
      */
     delete: (req,res) => {
-
         var nordinal = req.query.nordinal;
-
         if (nordinal == null) {
             return res.status(400).json({'error': 'missing parameters'})
         }
@@ -39,6 +38,11 @@ module.exports = {
                 nordinal: nordinal }
         })
             .then(function () {
+                // send email to notify to the veterinary
+                let to = newVeterinary.email;
+                let mailSubject = "VOTRE DEMANDE D'INSCRIPTION SUR VETOLIB";
+                let mailText = "Votre demande d'inscription n'a pas été acceptée. Veuillez revoir vos informations.";
+                mailer.sendToVeterinary(req, res, {to,mailSubject,mailText});
                 return res.status(200).json('Subscription request deleted');
             })
             .catch(function (err) {

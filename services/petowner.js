@@ -1,6 +1,5 @@
-var express = require('express');
-//const db = require('../models/');
 const db = require('../models');
+const mailer = require('../handlers/mailer');
 
 module.exports = {
     /**
@@ -23,6 +22,11 @@ module.exports = {
                     password: bcryptedPassword,
                 })
                 .then(function(newPetowner) {
+                    // send email to notify to the petowner
+                    let to = newPetowner.idpetowner;
+                    let mailSubject = "VOTRE INSCRIPTION SUR VETOLIB ";
+                    let mailText = "Bienvenue sur Vetolib ! ";
+                    mailer.sendToPetowner(req, res, {to,mailSubject,mailText});
                     return res.status(201).json({
                         'idpetowner': newPetowner.idpetowner
                     })

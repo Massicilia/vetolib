@@ -1,7 +1,7 @@
-var PetService = require('../services/pet');
-var handler = require('../handlers/crudHandlers');
-var model = require('../models');
-var petmodel = model.pet;
+const PetService = require('../services/pet');
+const handler = require('../handlers/crudHandlers');
+const model = require('../models');
+const petmodel = model.pet;
 module.exports = {
     /**
      *

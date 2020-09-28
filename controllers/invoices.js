@@ -1,9 +1,9 @@
-var handler = require('../handlers/crudHandlers');
-var invoiceService = require('../services/invoices');
-var model = require('../models')
-var veterinarymodel = model.veterinary;
-var appointmentmodel = model.appointment;
-var invoicemodel = model.invoice;
+const handler = require('../handlers/crudHandlers');
+const invoiceService = require('../services/invoices');
+const model = require('../models')
+const veterinarymodel = model.veterinary;
+const appointmentmodel = model.appointment;
+const invoicemodel = model.invoice;
 module.exports = {
     /**
      *

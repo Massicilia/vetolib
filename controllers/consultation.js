@@ -1,6 +1,6 @@
-var handler = require('../handlers/crudHandlers');
-var model = require('../models')
-var consultationmodel = model.consultation;
+const handler = require('../handlers/crudHandlers');
+const model = require('../models')
+const consultationmodel = model.consultation;
 module.exports = {
     /**
      *

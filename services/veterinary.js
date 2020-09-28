@@ -1,5 +1,6 @@
 const db = require('../models');
 const handler = require('../handlers/crudHandlers');
+const mailer = require('../handlers/mailer');
 const subscriptionrequestmodel = db.subscriptionrequest;
 module.exports = {
     /**
@@ -24,6 +25,12 @@ module.exports = {
                     password: bcryptedPassword
                 })
                 .then(function(newSubscriptionrequest) {
+                    // send email to notify to the veterinary
+                    console.log('email : '+ newSubscriptionrequest.email);
+                    let to = newSubscriptionrequest.email;
+                    let mailSubject = "VOTRE DEMANDE D'INSCRIPTION SUR VETOLIB";
+                    let mailText = "Votre demande d'inscription sera traitée par un membre de Vetolib dans les plus brefs délais. Nous vous contacterons par email.  ";
+                    mailer.sendToVeterinary(req, res, {to,mailSubject,mailText});
                     return res.status(201).json({
                         'idsubscriptionrequest': newSubscriptionrequest.idsubscriptionrequest,
                         'nordinal': newSubscriptionrequest.nordinal,
@@ -72,6 +79,11 @@ module.exports = {
                             nordinal : veterinary.nordinal
                         }
                     })
+                    // send email to notify to the veterinary
+                    let to = newVeterinary.email;
+                    let mailSubject = "VOTRE DEMANDE D'INSCRIPTION SUR VETOLIB";
+                    let mailText = "Votre demande d'inscription a été acceptée. Vous pouvez dès à présent vous connecter sur Vetolib.";
+                    mailer.sendToVeterinary(req, res, {to,mailSubject,mailText});
                     return res.status(201).json({
                         'nordinal': newVeterinary.nordinal,
                         'name': newVeterinary.name,
