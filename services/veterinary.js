@@ -74,16 +74,16 @@ module.exports = {
                     customerID: customerID
                 })
                 .then(function(newVeterinary) {
-                    handler.delete(req,res,subscriptionrequestmodel,{
-                        where : {
-                            nordinal : veterinary.nordinal
-                        }
-                    })
                     // send email to notify to the veterinary
                     let to = newVeterinary.email;
                     let mailSubject = "VOTRE DEMANDE D'INSCRIPTION SUR VETOLIB";
                     let mailText = "Votre demande d'inscription a été acceptée. Vous pouvez dès à présent vous connecter sur Vetolib.";
                     mailer.sendToVeterinary(req, res, {to,mailSubject,mailText});
+                    handler.delete(req,res,subscriptionrequestmodel,{
+                        where : {
+                            nordinal : veterinary.nordinal
+                        }
+                    })
                     return res.status(201).json({
                         'nordinal': newVeterinary.nordinal,
                         'name': newVeterinary.name,

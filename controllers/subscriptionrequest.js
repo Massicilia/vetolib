@@ -2,6 +2,7 @@ const handler = require('../handlers/crudHandlers');
 const mailer = require('../handlers/mailer');
 const model = require('../models')
 const subscriptionrequestmodel = model.subscriptionrequest;
+const subscriptionrequestService = require('../services/subscriptionrequest');
 module.exports = {
     /**
      *
@@ -33,20 +34,16 @@ module.exports = {
         if (nordinal == null) {
             return res.status(400).json({'error': 'missing parameters'})
         }
-        handler.delete(req,res,subscriptionrequestmodel,{
+        handler.getOne({
             where: {
-                nordinal: nordinal }
-        })
-            .then(function () {
-                // send email to notify to the veterinary
-                let to = newVeterinary.email;
-                let mailSubject = "VOTRE DEMANDE D'INSCRIPTION SUR VETOLIB";
-                let mailText = "Votre demande d'inscription n'a pas été acceptée. Veuillez revoir vos informations.";
-                mailer.sendToVeterinary(req, res, {to,mailSubject,mailText});
-                return res.status(200).json('Subscription request deleted');
+                nordinal: req.query.nordinal
+            }
+        }, subscriptionrequestmodel)
+            .then(function (subscriptionrequestFound) {
+                subscriptionrequestService.delete(req,res,subscriptionrequestFound.email);
             })
             .catch(function (err) {
-                return res.status(500).json({'error': 'Unable to delete the subscription request'})
+                res.status(505).json({message: "Subscription request not found"});
             })
     },
 

@@ -50,6 +50,7 @@ module.exports = {
      */
     sendToVeterinary: function (req, res, mailBody) {
         const {to, mailSubject, mailText} = mailBody;
+        console.log(' sendToVeterinary ');
         console.log(' to : '+ to);
         console.log(' mailSubject : '+ mailSubject);
         console.log(' mailText : '+ mailText);
