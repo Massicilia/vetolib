@@ -6,6 +6,7 @@ const veterinaryService = require('../services/veterinary');
 const model = require('../models')
 const veterinarymodel = model.veterinary;
 const subscriptionrequestmodel = model.subscriptionrequest;
+const HashMap = require('hashmap');
 const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
 
 module.exports = {
@@ -217,34 +218,40 @@ module.exports = {
             return res.status(400).json({'error': 'missing or invalide parameters'});
         }
 
-        stripe.customers.create()
-            .then(function (customer) {
-                customerID = customer.id;
-                handler.getOne({
-                    where: {
-                        nordinal: nordinal
-                    }
-                }, subscriptionrequestmodel)
-                    .then(function (subscriptionrequestFound) {
-                        if(subscriptionrequestFound != null){
-                            console.log('customer : '+customerID);
+        handler.getOne({
+            where: {
+                nordinal: nordinal
+            }
+        }, subscriptionrequestmodel)
+            .then(function (subscriptionrequestFound) {
+                if(subscriptionrequestFound != null){
+                    // params for stripe payment
+                    let customerParams = new HashMap();
+                    customerParams.put("description", subscriptionrequestFound.surname + " " + subscriptionrequestFound.name);
+                    customerParams.put("name", subscriptionrequestFound.surname + " " + subscriptionrequestFound.name);
+                    customerParams.put("email", subscriptionrequestFound.email);
+                    customerParams.put("phone", subscriptionrequestFound.phonenum);
+                    stripe.customers.create(customerParams)
+                        .then(function (customer) {
+                            customerID = customer.id;
                             veterinaryService.add(req,res,subscriptionrequestFound, customerID)
-                        }else{
-                            return res.status(400).json({
-                                status: 400,
-                                message: "No subscription request found"
-                            });
-                        }
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                        return res.status(500).json({'error': 'Unable to create a new veterinary'})
-                    })
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            return res.status(505).json({'error': 'Unable to create a new customer in payment module'})
+                        })
+                }else{
+                    return res.status(400).json({
+                        status: 400,
+                        message: "No subscription request found"
+                    });
+                }
             })
-            .catch(function (error) {
-                console.log(error);
-                return res.status(505).json({'error': 'Unable to create a new customer in payment module'})
+            .catch(function (err) {
+                console.log(err);
+                return res.status(500).json({'error': 'Unable to create a new veterinary'})
             })
+
 
     },
 }

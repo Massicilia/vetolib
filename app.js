@@ -20,6 +20,9 @@ var RouterConsultation = require('./routes/consultation').router;
 var RouterAdministrator = require('./routes/administrator').router;
 var RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
 var RouterStripePayment = require('./routes/stripepayment');
+// stripe
+const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
+
 var app = express();
 
 app.use(bodyParser.json());
@@ -41,6 +44,14 @@ app.use(function(req, res, next) {
 app.post('/api/status', function (req, res, next) {
   // your code goes here
 });
+
+app.get('/card-wallet', async (req, res) => {
+  const intent =  await stripe.setupIntents.create({
+    customer: customer.id,
+  });
+  res.render('card_wallet', { client_secret: intent.client_secret });
+});
+
 
 module.exports = app;
 
