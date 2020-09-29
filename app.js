@@ -45,13 +45,6 @@ app.post('/api/status', function (req, res, next) {
   // your code goes here
 });
 
-app.get('/card-wallet', async (req, res) => {
-  const intent =  await stripe.setupIntents.create({
-    customer: customer.id,
-  });
-  res.render('card_wallet', { client_secret: intent.client_secret });
-});
-
 
 module.exports = app;
 
