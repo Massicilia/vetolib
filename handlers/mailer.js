@@ -49,11 +49,8 @@ module.exports = {
      * @param mailBody
      */
     sendToVeterinary: function (req, res, mailBody) {
+        console.log('sendtoveterinary ');
         const {to, mailSubject, mailText} = mailBody;
-        console.log(' sendToVeterinary ');
-        console.log(' to : '+ to);
-        console.log(' mailSubject : '+ mailSubject);
-        console.log(' mailText : '+ mailText);
         const mailData = {
             from: 'vetolibmailer@gmail.com',
             to: to,

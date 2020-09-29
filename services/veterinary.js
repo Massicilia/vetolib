@@ -58,8 +58,8 @@ module.exports = {
      * @returns {Promise<unknown>}
      */
     add : (req,res,subscriptionrequest, customerID) => {
-        console.log(veterinary.nordinal);
         return new Promise((next) => {
+            console.log('service : '+ customerID);
             db.veterinary.create(
                 {
                     nordinal: subscriptionrequest.nordinal,
@@ -74,16 +74,22 @@ module.exports = {
                     customerID: customerID
                 })
                 .then(function(newVeterinary) {
+                    console.log('then service ');
                     // send email to notify to the veterinary
                     let to = newVeterinary.email;
                     let mailSubject = "VOTRE DEMANDE D'INSCRIPTION SUR VETOLIB";
                     let mailText = "Votre demande d'inscription a été acceptée. Vous pouvez dès à présent vous connecter sur Vetolib.";
                     mailer.sendToVeterinary(req, res, {to,mailSubject,mailText});
-                    handler.delete(req,res,subscriptionrequestmodel,{
+                    subscriptionrequestmodel.destroy({
                         where : {
-                            nordinal : veterinary.nordinal
+                            nordinal: subscriptionrequest.nordinal
                         }
                     })
+                        .then(function(rowDeleted) {
+                            if (rowDeleted === 1) {
+                                console.log('deleted');
+                            }})
+                        .catch((err) => console.log(err));
                     return res.status(201).json({
                         'nordinal': newVeterinary.nordinal,
                         'name': newVeterinary.name,
@@ -98,7 +104,7 @@ module.exports = {
                     })
                 })
                 .catch(function(err){
-                    console.log('err : '+ err);
+                    console.log('err ici : '+ err);
                     return res.status(500).json({'error': 'Can not create a new veterinary'})
                 })
         })
