@@ -6,7 +6,7 @@ router.route('/public-key')
     .get(StripePaymentController.getPublicKey)
 router.route('/create-setup-intent')
     .post(StripePaymentController.createSetupIntent)
-router.route('/test')
-    .get(StripePaymentController.test)
+router.route('/webhook')
+    .post(StripePaymentController.webhookHandler)
 
 module.exports = router;
