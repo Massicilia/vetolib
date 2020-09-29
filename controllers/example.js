@@ -29,5 +29,9 @@ module.exports = {
             .catch(function (err) {
                 console.log('error : '+ err);
             })
+    },
+
+    test: (req,res) => {
+        return res.status(200).json({'test': 'test'});
     }
 }
