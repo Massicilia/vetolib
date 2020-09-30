@@ -35,6 +35,10 @@ module.exports = {
         //veterinary.customerID
     },
 
+    create: (req, res) => {
+        return res.status(200).json({'test': 'test'})
+    },
+
     // Webhook handler for asynchronous events.
     webhookHandler: async (req, res) => {
         let data;
