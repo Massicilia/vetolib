@@ -16,7 +16,7 @@ module.exports = {
     },
 
 //app.post("/create-setup-intent", async (req, res) => {
-    createSetupIntent: async (req, res) => {
+    createSetupIntent: (req, res) => {
         handler.getOne({
             where: {
                 nordinal: req.body.veterinary_nordinal
@@ -24,7 +24,7 @@ module.exports = {
         }, veterinarymodel)
             .then(async function (veterinary) {
                 res.send(await stripe.setupIntents.create({
-                    customer: "cus_I60VoCMdHDgV7S"
+                    customer: veterinary.customerID
                 }));
             })
             .catch(function (err) {
