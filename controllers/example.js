@@ -23,10 +23,12 @@ module.exports = {
             }
         }, veterinarymodel)
             .then(async function (veterinary) {
-                res.send(await stripe.setupIntents.create({
+                intent = await stripe.setupIntents.create({
                     customer: veterinary.customerID
-                }));
-            })
+                });
+                return res.status(200).json(intent)
+                }
+            )
             .catch(function (err) {
                 console.log('error : '+ err);
             })
