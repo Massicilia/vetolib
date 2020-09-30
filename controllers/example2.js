@@ -19,7 +19,7 @@ module.exports = {
                         customer: customerID
                     });
                     console.log('intent : '+intent.id);
-                    return res.status(200).json(intent)
+                    return res.send(intent)
                 }else{
                     return res.status(400).json({'error':'Veterinary null'})
                 }
