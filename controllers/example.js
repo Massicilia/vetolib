@@ -23,9 +23,14 @@ module.exports = {
             }
         }, veterinarymodel)
             .then(function (veterinary) {
-                intent = stripe.setupIntents.create({
+                /*intent = stripe.setupIntents.create({
                     customer: veterinary.customerID
-                })
+                })*/
+                handler.getOne({
+                    where: {
+                        nordinal: req.body.veterinary_nordinal
+                    }
+                }, veterinarymodel)
                     .then(function (intent) {
                         return res.status(200).json(intent)
                     })
