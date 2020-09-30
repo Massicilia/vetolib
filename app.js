@@ -77,7 +77,7 @@ app.use(config.rootAPI + '/invoice', RouterInvoice);
 app.use(config.rootAPI + '/consultation', RouterConsultation);
 app.use(config.rootAPI + '/administrator', RouterAdministrator);
 app.use(config.rootAPI + '/subscriptionrequest', RouterSubscriptionRequest);
-app.use(config.rootAPI + '/cardwallet', RouterStripePayment);
+app.use(config.rootAPI + '/card-wallet', RouterStripePayment);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
