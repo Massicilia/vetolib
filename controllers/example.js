@@ -36,7 +36,8 @@ module.exports = {
     },
 
     create: (req, res) => {
-        return res.status(200).json({'test': 'test'})
+
+        return res.status(200).json({'test': req.body.example})
     },
 
     // Webhook handler for asynchronous events.
