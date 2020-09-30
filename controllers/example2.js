@@ -12,11 +12,15 @@ module.exports = {
             }
         }, veterinarymodel)
             .then(function (veterinary) {
-                intent = stripe.setupIntents.create({
-                    customer: veterinary.customerID
-                })
-                return res.status(200).json(intent)
-
+                if(veterinary!=null){
+                    customerID = veterinary.customerID;
+                    intent = stripe.setupIntents.create({
+                        customer: customerID
+                    })
+                    return res.status(200).json(intent)
+                }else{
+                    return res.status(400).json({'error':'Veterinary null'})
+                }
             })
             .catch(function (err) {
                 return res.status(500).json({'error': err})
