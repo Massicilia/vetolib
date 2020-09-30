@@ -18,7 +18,7 @@ module.exports = {
                     intent = stripe.setupIntents.create({
                         customer: customerID
                     });
-                    console.log('intent : '+intent);
+                    console.log('intent : '+intent.id);
                     return res.status(200).json(intent)
                 }else{
                     return res.status(400).json({'error':'Veterinary null'})
