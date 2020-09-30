@@ -19,7 +19,7 @@ module.exports = {
     createSetupIntent: async (req, res) => {
         handler.getOne({
             where: {
-                nordinal: req.query.veterinary_nordinal
+                nordinal: req.body.veterinary_nordinal
             }
         }, veterinarymodel)
             .then(async function (veterinary) {
