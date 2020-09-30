@@ -22,11 +22,17 @@ module.exports = {
                 nordinal: req.body.veterinary_nordinal
             }
         }, veterinarymodel)
-            .then(async function (veterinary) {
-                intent = await stripe.setupIntents.create({
+            .then(function (veterinary) {
+                intent = stripe.setupIntents.create({
                     customer: veterinary.customerID
-                });
-                return res.status(200).json(intent)
+                })
+                    .then(function (intent) {
+                        return res.status(200).json(intent)
+                    })
+                    .catch(function (err) {
+                        return res.status(400).json({error: err});
+                    })
+
                 }
             )
             .catch(function (err) {
