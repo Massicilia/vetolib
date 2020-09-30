@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var config = require('./config/config.json');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-var cors = require('cors');
 //routers
 var RouterIndex = require('./routes/index');
 var RouterAppointment = require('./routes/appointment');
@@ -23,28 +22,6 @@ var RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
 var RouterStripePayment = require('./routes/stripepayment');
 
 var app = express();
-
-// CORS
-const corsOpts = {
-  origin: '*',
-
-  methods: [
-    'GET',
-    'POST',
-  ],
-
-  allowedHeaders: [
-    'Content-Type',
-  ],
-};
-app.use(cors(corsOpts));
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -110,13 +87,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/* CORS ACCESS
-app.use(function(req, res, next) {
+// CORS ACCESS
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET,DELETE,PATCH,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
   next();
-});*/
+});
 
 
 module.exports = app;
