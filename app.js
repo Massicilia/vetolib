@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var config = require('./config/config.json');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+
 //routers
 var RouterIndex = require('./routes/index');
 var RouterAppointment = require('./routes/appointment');
