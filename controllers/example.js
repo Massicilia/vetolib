@@ -24,12 +24,13 @@ module.exports = {
         }, veterinarymodel)
             .then(async function (veterinary) {
                 res.send(await stripe.setupIntents.create({
-                    customer: veterinary.customerID
+                    customer: "cus_I60VoCMdHDgV7S"
                 }));
             })
             .catch(function (err) {
                 console.log('error : '+ err);
             })
+        //veterinary.customerID
     },
 
     // Webhook handler for asynchronous events.
