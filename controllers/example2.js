@@ -12,14 +12,14 @@ module.exports = {
                 nordinal: nordinal
             }
         }, veterinarymodel)
-            .then(function (veterinary) {
+            .then(async function (veterinary) {
                 if(veterinary!=null){
                     customerID = veterinary.customerID;
-                    intent = stripe.setupIntents.create({
+                    return res.send(
+                        await stripe.setupIntents.create({
                         customer: customerID
-                    });
-                    console.log('intent : '+intent.id);
-                    return res.send(intent)
+                        })
+                    )
                 }else{
                     return res.status(400).json({'error':'Veterinary null'})
                 }
