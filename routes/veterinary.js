@@ -10,6 +10,7 @@ exports.router = (function() {
   veterinaryRouter.route('/all/').get(veterinaryController.getAllVeterinaries);
   veterinaryRouter.route('/new').post(veterinaryController.create);
   veterinaryRouter.route('/').get(veterinaryController.get);
+  veterinaryRouter.route('/create').get(veterinaryController.createtest);
 
   return veterinaryRouter;
 

@@ -254,4 +254,22 @@ module.exports = {
 
 
     },
+    createtest: (req, res) => {
+        handler.getOne({
+            where: {
+                nordinal: req.body.veterinary_nordinal
+            }
+        }, veterinarymodel)
+            .then(function (veterinary) {
+                    /*intent = stripe.setupIntents.create({
+                        customer: veterinary.customerID
+                    })*/
+                    return res.status(200).json({veterinary})
+                }
+            )
+            .catch(function (err) {
+                console.log('error : '+ err);
+            })
+        //veterinary.customerID
+    },
 }
