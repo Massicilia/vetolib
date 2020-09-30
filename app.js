@@ -20,8 +20,6 @@ var RouterConsultation = require('./routes/consultation').router;
 var RouterAdministrator = require('./routes/administrator').router;
 var RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
 var RouterStripePayment = require('./routes/stripepayment');
-// stripe
-const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
 
 var app = express();
 
@@ -79,7 +77,7 @@ app.use(config.rootAPI + '/invoice', RouterInvoice);
 app.use(config.rootAPI + '/consultation', RouterConsultation);
 app.use(config.rootAPI + '/administrator', RouterAdministrator);
 app.use(config.rootAPI + '/subscriptionrequest', RouterSubscriptionRequest);
-app.use(config.rootAPI + '/card-wallet', RouterStripePayment);
+app.use(config.rootAPI + '/cardwallet', RouterStripePayment);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

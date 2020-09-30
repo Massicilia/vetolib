@@ -1,8 +1,9 @@
-const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
-const stripepk = Stripe('pk_test_51HM2DTGVBJFFbfQT6801jISmTHsxuGPrL9Icrrun7AgBKbobG0MaxcUPm9anfnA60U53L7gX3RTMN0hxdxnFq8tQ00VRODNzsZ'); // use your test publishable key
 const model = require('../models');
 const veterinarymodel = model.veterinary;
 const webhookKey = 'whsec_eB8qwXuZOpWlBnOY00fyKB9HWnkNgHEY';
+const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
+//const stripe = new Stripe('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
+//const stripepk = Stripe('pk_test_51HM2DTGVBJFFbfQT6801jISmTHsxuGPrL9Icrrun7AgBKbobG0MaxcUPm9anfnA60U53L7gX3RTMN0hxdxnFq8tQ00VRODNzsZ'); // use your test publishable key
 module.exports = {
 //app.get("/", (req, res) => {
     get: (req, res) => {
@@ -23,10 +24,10 @@ module.exports = {
             }
         }, veterinarymodel)
             .then(function (veterinary) {
-                    /*intent = stripe.setupIntents.create({
+                    intent = stripe.setupIntents.create({
                         customer: veterinary.customerID
-                    })*/
-                    return res.status(200).json({veterinary})
+                    })
+                    return res.status(200).json(intent)
                 }
             )
             .catch(function (err) {
@@ -34,10 +35,23 @@ module.exports = {
             })
         //veterinary.customerID
     },
-
-    create: (req, res) => {
-
-        return res.status(200).json({'test': req.body.example})
+    createSetupIntent2: (req, res) => {
+        handler.getOne({
+            where: {
+                nordinal: req.body.veterinary_nordinal
+            }
+        }, veterinarymodel)
+            .then(function (veterinary) {
+                    /*intent = stripe.setupIntents.create({
+                        customer: veterinary.customerID
+                    })*/
+                    return res.status(200).json({'veterinary':'test'})
+                }
+            )
+            .catch(function (err) {
+                console.log('error : '+ err);
+            })
+        //veterinary.customerID
     },
 
     // Webhook handler for asynchronous events.
