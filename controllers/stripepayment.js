@@ -1,62 +1,119 @@
-// Set your secret key. Remember to switch to your live secret key in production!
-// See your keys here: https://dashboard.stripe.com/account/apikeys
-const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');//process.env.STRIPE_SECRET_KEY
 const handler = require('../handlers/crudHandlers');
 const model = require('../models');
 const veterinarymodel = model.veterinary;
+const webhookKey = 'whsec_eB8qwXuZOpWlBnOY00fyKB9HWnkNgHEY';
+const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
 module.exports = {
-    /**
-     *
-     * @param req
-     * @param res
-     */
-    create: (req, res) => {
-        var veterinary_nordinal = req.query.veterinary_nordinal;
-        stripe.customers.create({
-            id: veterinary_nordinal
-        })
-            .then(customer =>
-                stripe.setupIntents.create({
-                    customer: customer.id
-                })
-                    .then(intent =>
-                        res.render('card_wallet', { client_secret: intent.client_secret })
-                        )
-                    .catch(error => console.error(error)))
-            .catch(error => console.error(error))
-    },
-    /**
-     *
-     * @param req
-     * @param res
-     */
-    getAllCreditCards: (req, res) => {
-        var veterinary_nordinal = req.query.veterinary_nordinal;
-        stripe.setupIntents.list({
-            customer: veterinary_nordinal
-        })
-            .then(intents => res.render(intents))
-            .catch(error => console.error(error))
-    },
-    register: (req, res) => {
-        var veterinary_nordinal = req.query.veterinary_nordinal;
 
-        handler.getByPk(veterinary_nordinal, veterinarymodel)
-            .then(async function (veterinaryFound) {
-                if(veterinaryFound != null){
-                    let customerID = veterinaryFound.customerID;
-                    const intent =  await stripe.setupIntents.create({
-                        customer: customerID,
-                    });
-                    res.render('card_wallet', { client_secret: intent.client_secret });
-                    /*res.send(await stripe.setupIntents.create({
+    createSetupIntent2: (req, res) => {
+        var nordinal = req.body.veterinary_nordinal;
+        handler.getOne({
+            where: {
+                nordinal: nordinal
+            }
+        }, veterinarymodel)
+            .then(async function (veterinary) {
+                if(veterinary!=null){
+                    customerID = veterinary.customerID;
+                    return res.send(
+                        await stripe.setupIntents.create({
                         customer: customerID
-                    }));*/
+                        })
+                    )
+                }else{
+                    return res.status(400).json({'error':'Veterinary null'})
                 }
             })
-            .catch(function (error) {
-                return res.status(500).json({'error': error})
+            .catch(function (err) {
+                return res.status(500).json({'error': err})
+            })
+    },
+    // Webhook handler for asynchronous events.
+    webhookHandler: async (req, res) => {
+        let data;
+        let eventType;
+
+        // Check if webhook signing is configured.
+        if (webhookKey) {
+            // Retrieve the event by verifying the signature using the raw body and secret.
+            let event;
+            let signature = req.headers["stripe-signature"];
+
+            try {
+                event = await stripe.webhooks.constructEvent(
+                    req.rawBody,
+                    signature,
+                    webhookKey
+                );
+            } catch (err) {
+                console.log(`⚠️  Webhook signature verification failed.`);
+                return res.sendStatus(400);
+            }
+            // Extract the object from the event.
+            data = event.data;
+            eventType = event.type;
+        } else {
+            // Webhook signing is recommended, but if the secret is not configured in `config.js`,
+            // retrieve the event data directly from the request body.
+            data = req.body.data;
+            eventType = req.body.type;
+        }
+
+        if (eventType === "setup_intent.created") {
+            console.log(`🔔  A new SetupIntent is created. ${data.object.id}`);
+        }
+
+        if (eventType === "setup_intent.setup_failed") {
+            console.log(`🔔  A SetupIntent has failed to set up a PaymentMethod.`);
+        }
+
+        if (eventType === "setup_intent.succeeded") {
+            console.log(
+                `🔔  A SetupIntent has successfully set up a PaymentMethod for future use.`
+            );
+        }
+
+        if (eventType === "payment_method.attached") {
+            console.log(
+                `🔔  A PaymentMethod ${data.object.id} has successfully been saved to a Customer ${data.object.customer}.`
+            );
+
+            const customer = await stripe.customers.update(
+                data.object.customer,
+                {email: data.object.billing_details.email},
+                () => {
+                    console.log(
+                        `🔔  Customer successfully updated.`
+                    );
+                }
+            );
+
+        }
+
+        res.sendStatus(200);
+    },
+    getCreditCard: (req, res) => {
+        var nordinal = req.query.veterinary_nordinal;
+        handler.getOne({
+            where: {
+                nordinal: nordinal
+            }
+        }, veterinarymodel)
+            .then(async function (veterinary) {
+                if(veterinary!=null){
+                    customerID = veterinary.customerID;
+                    return res.send(
+                        await stripe.customers.listSources(
+                            customerID,
+                            {object: 'card', limit: 10}
+                        )
+                    )
+                }else{
+                    return res.status(400).json({'error':'Veterinary null'})
+                }
+            })
+            .catch(function (err) {
+                return res.status(500).json({'error': err})
             })
     }
-
 }
