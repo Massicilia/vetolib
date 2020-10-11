@@ -92,6 +92,11 @@ module.exports = {
 
         res.sendStatus(200);
     },
+    /**
+     *
+     * @param req
+     * @param res
+     */
     getCreditCard: (req, res) => {
         var nordinal = req.query.veterinary_nordinal;
         handler.getOne({
@@ -100,7 +105,8 @@ module.exports = {
             }
         }, veterinarymodel)
             .then(async function (veterinary) {
-                if(veterinary!=null){
+                let customerID;
+                if (veterinary != null) {
                     customerID = veterinary.customerID;
                     return res.send(
                         await stripe.customers.listSources(
@@ -108,8 +114,8 @@ module.exports = {
                             {object: 'card', limit: 10}
                         )
                     )
-                }else{
-                    return res.status(400).json({'error':'Veterinary null'})
+                } else {
+                    return res.status(400).json({'error': 'Veterinary null'})
                 }
             })
             .catch(function (err) {
