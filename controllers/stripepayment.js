@@ -108,11 +108,12 @@ module.exports = {
                 let customerID;
                 if (veterinary != null) {
                     customerID = veterinary.customerID;
+                    console.log('veterinary customerID : '+ customerID);
                     return res.send(
-                        await stripe.customers.listSources(
-                            customerID,
-                            {object: 'card', limit: 10}
-                        )
+                        await stripe.paymentMethods.list({
+                            customer: customerID,
+                            type: 'card',
+                        })
                     )
                 } else {
                     return res.status(400).json({'error': 'Veterinary null'})
