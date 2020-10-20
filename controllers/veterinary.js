@@ -18,7 +18,7 @@ module.exports = {
      * @param next
      */
     getAllVeterinaries: (req, res) => {
-
+        console.log('getallveterinaries');
         var veterinarymodel = model.veterinary;
         handler.getAll(req,res,veterinarymodel,{});
     },
@@ -254,22 +254,19 @@ module.exports = {
 
 
     },
-    createtest: (req, res) => {
-        handler.getOne({
-            where: {
-                nordinal: req.body.veterinary_nordinal
-            }
-        }, veterinarymodel)
-            .then(function (veterinary) {
-                    /*intent = stripe.setupIntents.create({
-                        customer: veterinary.customerID
-                    })*/
-                    return res.status(200).json({veterinary})
-                }
-            )
-            .catch(function (err) {
-                console.log('error : '+ err);
-            })
-        //veterinary.customerID
-    },
+    getVeterinariesIDs: () => {
+        return veterinarymodel.findAll()
+                .then(data => {
+                    console.log(data[1]['dataValues']['nordinal']);
+                    let vetArray = [];
+                    for(let i = 0; i<data.length; i++){
+                        let veterinariesIDs = new HashMap();
+                        veterinariesIDs[data[i]['dataValues']['nordinal']] = data[i]['dataValues']['customerID'];
+                        vetArray.push(veterinariesIDs);
+                    }
+                    return vetArray;
+                })
+                .catch((err) => console.log(err));
+    }
 }
+

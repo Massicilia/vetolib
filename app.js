@@ -1,28 +1,29 @@
-var createError = require('http-errors');
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var config = require('./config/config.json');
+const createError = require('http-errors');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const config = require('./config/config.json');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
 //routers
-var RouterIndex = require('./routes/index');
-var RouterAppointment = require('./routes/appointment');
-var RouterVeterinary = require('./routes/veterinary').router;
-var RouterPet = require('./routes/pet');
-var RouterPetowner = require('./routes/petowner').router;
-var RouterClinic = require('./routes/clinic').router;
-var RouterInvoice = require('./routes/invoice');
-var RouterConsultation = require('./routes/consultation').router;
-var RouterAdministrator = require('./routes/administrator').router;
-var RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
-var RouterStripePayment = require('./routes/stripepayment');
+const RouterIndex = require('./routes/index');
+const RouterAppointment = require('./routes/appointment');
+const RouterVeterinary = require('./routes/veterinary').router;
+const RouterPet = require('./routes/pet');
+const RouterPetowner = require('./routes/petowner').router;
+const RouterClinic = require('./routes/clinic').router;
+const RouterInvoice = require('./routes/invoice');
+const RouterConsultation = require('./routes/consultation').router;
+const RouterAdministrator = require('./routes/administrator').router;
+const RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
+const RouterStripePayment = require('./routes/stripepayment');
 
-var app = express();
+const generateInvoices = require('./use_case/invoiceGeneration');
+const app = express();
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -35,6 +36,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.rootAPI + '/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// generate invoices
+generateInvoices.generateInvoices();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -51,15 +54,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-//cron jobs
-const invoicesGeneration = require('./use_case/InvoiceGeneration');
-const cron = require("node-cron");
-/*cron.schedule("* * * * *", function () {
-  console.log("Running Cron Job");
-  //var invoicesGeneration = new InvoicesGeneration();
-  invoicesGeneration.generateInvoices();
-});*/
 
 const expressHandlebars = require('express-handlebars');
 
@@ -85,7 +79,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -94,20 +88,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-/* CORS ACCESS
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,DELETE,PATCH,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
-  next();
-});
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});*/
-
 
 module.exports = app;
 

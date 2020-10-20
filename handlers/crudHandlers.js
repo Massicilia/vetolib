@@ -1,4 +1,3 @@
-const express = require('express');
 
 module.exports = {
     /**
@@ -65,11 +64,9 @@ module.exports = {
      * @returns {Promise<unknown>}
      */
     getAll: (req, res, model,options) => {
-        return new Promise((next) => {
-            console.log('handler step 1');
+        return new Promise(() => {
             model.findAll(options)
                 .then(data => {
-                    console.log('handler step 2 : ' + data );
                     res.json(data)
                 })
                 .catch((err) => console.log(err));

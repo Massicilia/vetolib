@@ -1,16 +1,27 @@
-var veterinaryController = require('../controllers/veterinary');
-var veterinarymodel = require('../models/veterinary')
-
+const veterinaryController = require('../controllers/veterinary');
+const invoiceController = require('../controllers/invoices');
+const cron = require("node-cron");
 module.exports = {
     generateInvoices: function(){
-        /* var cron = require('cron');
-    var cronJob = cron.job("0 0 0 0 * *", function(){*/
-        //get a list of veterinaries
-        //var veterinaries = veterinaryController.getAllVeterinaries(null, null);
-        console.log('veterinaries : '+ veterinaries);
-        //for each veterinary get the agenda for this month
-        //calcul du montant
-        //for each veterinary generate an invoice
+        cron.schedule('* * * * *',
+            function() {
+                console.log('running a task every minute');
+                // get a list of veterinaries
+                veterinaryController.getVeterinariesIDs()
+                    .then(data => {
+                        console.log('getVet then');
+                        console.log('data.length : '+ data.length);
+                        // for each veterinary generate an invoice
+                        for (let i = 0; i < data.length; i++) {
+                            let veterinary = data[i];
+                            invoiceController.generateInvoice( Object.keys(veterinary), Object.values(veterinary));
+                        }
+                    })
+                    .catch((err) => console.log(err));
+
+            },
+            { "scheduled": true}
+        );
         console.log('cron job completed');
     }
 
