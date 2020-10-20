@@ -1,9 +1,14 @@
-const veterinaryController = require('../controllers/veterinary');
-const invoiceController = require('../controllers/invoices');
 const cron = require("node-cron");
+const veterinaryController = require('../controllers/veterinary');
+const invoiceController = require('../controllers/invoice');
+
 module.exports = {
+    /**
+     * cron-job
+     * 30 days interval
+     */
     generateInvoices: function(){
-        cron.schedule('* * * * *',
+        cron.schedule('* * 30 * *',
             function() {
                 console.log('running a task every minute');
                 // get a list of veterinaries
@@ -18,11 +23,8 @@ module.exports = {
                         }
                     })
                     .catch((err) => console.log(err));
-
             },
             { "scheduled": true}
         );
-        console.log('cron job completed');
     }
-
 }

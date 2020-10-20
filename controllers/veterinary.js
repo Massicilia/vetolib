@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt');
+const HashMap = require('hashmap');
 const jwtUtils = require('../utils/jwt.utils')
 const utils = require('../utils/functions')
 const handler = require('../handlers/crudHandlers');
 const veterinaryService = require('../services/veterinary');
 const model = require('../models')
-const veterinarymodel = model.veterinary;
-const subscriptionrequestmodel = model.subscriptionrequest;
-const HashMap = require('hashmap');
+const veterinaryModel = model.veterinary;
+const subscriptionRequestModel = model.subscriptionrequest;
 const stripe = require('stripe')('sk_test_51HM2DTGVBJFFbfQTXQ1RJ3FA6Jn7e7wdjEVguo9HBVUvPX4mdmijMSmm51NxwsBU27VcJuMaWpiS6b1UcVTlNArY00I7TYtrWJ');
 
 module.exports = {
@@ -15,12 +15,11 @@ module.exports = {
      *
      * @param req
      * @param res
-     * @param next
      */
     getAllVeterinaries: (req, res) => {
         console.log('getallveterinaries');
-        var veterinarymodel = model.veterinary;
-        handler.getAll(req,res,veterinarymodel,{});
+        var veterinaryModel = model.veterinary;
+        handler.getAll(req,res,veterinaryModel,{});
     },
     /**
      *
@@ -44,7 +43,7 @@ module.exports = {
                 where: {
                     email: email
                 }
-            }, veterinarymodel)
+            }, veterinaryModel)
                 .then(function (veterinaryFound) {
                     if (veterinaryFound != null) {
                           bcrypt.compare(password, veterinaryFound.password, function (errBycrypt, resBycrypt) {
@@ -62,6 +61,7 @@ module.exports = {
                     }
                 })
                 .catch(function (err) {
+                    console.log(err);
                     return res.status(500).json({'error': 'Unable to verify the veterinary'})
                 })
         }else{
@@ -98,7 +98,7 @@ module.exports = {
                     nordinal: nordinal,
                     email: email
                 }
-            }, veterinarymodel)
+            }, veterinaryModel)
                 .then(function (veterinaryFound) {
                     if (veterinaryFound == null) {
                         bcrypt.hash(password, 5, function (err, bcryptedPassword) {
@@ -112,6 +112,7 @@ module.exports = {
                     }
                 })
                 .catch(function (err) {
+                    console.log(err);
                     return res.status(500).json({'error': 'Unable to verify the veterinary'})
                 })
         }else{
@@ -122,7 +123,6 @@ module.exports = {
      *
      * @param req
      * @param res
-     * @param next
      * @returns {any}
      */
     get: (req, res) => {
@@ -132,7 +132,7 @@ module.exports = {
             return res.status(400).json({'error': 'missing parameters'})
         }
 
-        handler.getByPk(nordinal, veterinarymodel)
+        handler.getByPk(nordinal, veterinaryModel)
             .then(function (veterinaryFound) {
                 if (veterinaryFound != null) {
                     return res.status(200).json({
@@ -150,6 +150,7 @@ module.exports = {
                 }
             })
             .catch(function (err) {
+                console.log(err);
                 return res.status(500).json({'error': 'Unable to get the veterinary'})
             })
     },
@@ -160,16 +161,16 @@ module.exports = {
      * @returns {any}
      */
     update: (req, res) => {
-        var nordinal = req.body.nordinal;
-        var surname = req.body.surname;
-        var name = req.body.name;
-        var adress = req.body.adress;
-        var email = req.body.email;
-        var phonenum = req.body.phonenum;
-        var password = req.body.password;
+        const nordinal = req.body.nordinal;
+        const surname = req.body.surname;
+        const name = req.body.name;
+        const adress = req.body.adress;
+        const email = req.body.email;
+        const phonenum = req.body.phonenum;
+        const password = req.body.password;
 
-        var selector = {where : { nordinal: nordinal}};
-        var values = {
+        const selector = {where : { nordinal: nordinal}};
+        const values = {
             surname: surname,
             name: name,
             adress: adress,
@@ -185,22 +186,12 @@ module.exports = {
             where: {
                 nordinal: nordinal
             }
-        }, veterinarymodel)
-            .then(function (VeterinaryFound) {
-                console.log('VeterinaryFound : ' + VeterinaryFound.nordinal);
-                console.log('ici');
-
-                if (VeterinaryFound != null) {
-                    console.log('VeterinaryFound if : ' + VeterinaryFound);
-                    handler.update(req,res,veterinarymodel, selector, values)
-                } else {
-                    return res.status(400).json({
-                        status: 400,
-                        message: "Veterinary not found"
-                    });
-                }
+        }, veterinaryModel)
+            .then(function () {
+                    handler.update(req,res,veterinaryModel, selector, values)
             })
             .catch(function (err) {
+                console.log(err);
                 return res.status(500).json({'error': 'Unable to update the veterinary'})
             })
     },
@@ -211,8 +202,8 @@ module.exports = {
      * @returns {any}
      */
     create: (req, res) => {
-        var nordinal = req.body.nordinal;
-        var customerID = null;
+        const nordinal = req.body.nordinal;
+        let customerID = null;
 
         if (nordinal == null) {
             return res.status(400).json({'error': 'missing or invalide parameters'});
@@ -222,19 +213,19 @@ module.exports = {
             where: {
                 nordinal: nordinal
             }
-        }, subscriptionrequestmodel)
-            .then(function (subscriptionrequestFound) {
-                if(subscriptionrequestFound != null){
+        }, subscriptionRequestModel)
+            .then(function (subscriptionRequestFound) {
+                if(subscriptionRequestFound != null){
                     // params for stripe payment
                     let customerParams = new HashMap();
-                    customerParams.put("description", subscriptionrequestFound.surname + " " + subscriptionrequestFound.name);
-                    customerParams.put("name", subscriptionrequestFound.surname + " " + subscriptionrequestFound.name);
-                    customerParams.put("email", subscriptionrequestFound.email);
-                    customerParams.put("phone", subscriptionrequestFound.phonenum);
+                    customerParams.put("description", subscriptionRequestFound.surname + " " + subscriptionRequestFound.name);
+                    customerParams.put("name", subscriptionRequestFound.surname + " " + subscriptionRequestFound.name);
+                    customerParams.put("email", subscriptionRequestFound.email);
+                    customerParams.put("phone", subscriptionRequestFound.phonenum);
                     stripe.customers.create(customerParams)
                         .then(function (customer) {
                             customerID = customer.id;
-                            veterinaryService.add(req,res,subscriptionrequestFound, customerID)
+                            veterinaryService.add(req,res,subscriptionRequestFound, customerID)
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -254,8 +245,12 @@ module.exports = {
 
 
     },
+    /**
+     *
+     * @returns {Promise<[] | void>}
+     */
     getVeterinariesIDs: () => {
-        return veterinarymodel.findAll()
+        return veterinaryModel.findAll()
                 .then(data => {
                     console.log(data[1]['dataValues']['nordinal']);
                     let vetArray = [];
