@@ -22,7 +22,7 @@ const RouterAdministrator = require('./routes/administrator').router;
 const RouterSubscriptionRequest = require('./routes/subscriptionrequest').router;
 const RouterStripePayment = require('./routes/stripepayment');
 
-const generateInvoices = require('./use_case/invoiceGeneration');
+const generateInvoices = require('./use_case/InvoiceGeneration');
 const app = express();
 app.options('*', cors());
 app.use(cors());
