@@ -24,6 +24,22 @@ const RouterStripePayment = require('./routes/stripepayment');
 const generateInvoices = require('./use_case/invoiceGeneration');
 const app = express();
 
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    // headers authorization for preflight requests
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+
+    app.options('*', (req, res) => {
+      // allowed XHR methods
+      res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+      res.send();
+    });
+  });
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.rootAPI + '/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -79,14 +95,14 @@ app.use(function(err, req, res) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+/*
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*, http://localhost:4200");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Credentials', true);
   res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH, HEAD, OPTIONS, PUT");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
   next();
-});
+});*/
 
 module.exports = app;
 
