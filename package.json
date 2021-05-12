@@ -35,7 +35,7 @@
     "mysql2": "^2.1.0",
     "node-cron": "^2.0.3",
     "node-sass-middleware": "^0.11.0",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.4.16",
     "nodemon": "^2.0.4",
     "pug": "2.0.0-beta11",
     "save": "^2.4.0",
